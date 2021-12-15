@@ -4,22 +4,20 @@
 NEWS
 ====
 A new version of YAFS is available in the [branch](https://github.com/acsicuib/YAFS/tree/YAFS3).
-- It supports Python 3.6+. 
-- It depends on fewer third-party libraries. It is lighter and easier to install.
-- It has 4 new awesome "tutorial_scenarios" or skeletons so you can use them to create your scenario with artificial intelligence, rules, neural networks, ... with whatever you want.
-- Notes:
-  - Most of the previous examples in folder "examples" are now up to date for this version, but the code for the examples which are not updated are still kept for you to inspire.
-  - Some parts of the Doc is still not updated. 
+- Supports +Python3.6. 
+- Depends on fewer third libraries. It is lighter and easier to install.
+- It has 4 awesome "tutorial_scenarios" or skeletons so you can use them to create your scenario with artificial intelligence, rules, neural networks, ... with whatever you want.
+- Note: the examples in folder "examples" is not up to date for this version yet, but the code is kept for you to inspire.
+- Note: some parts of the Doc is not still updated. 
 
 DESCRIPTION
 ===========
-
 YAFS (Yet Another Fog Simulator) is a simulator tool based on Python of architectures such as: [Fog Computing](https://en.wikipedia.org/wiki/Fog_computing) ecosystems for several analysis regarding with the placement of resources, cost deployment, network design, ... [IoT environments](https://en.wikipedia.org/wiki/Internet_of_things) are the most evident fact of this type of architecture.
 
 
 The **highlights** points of YAFS are:
-* **Dynamic topology:** entities and network links can be created or removed along the simulation.
-* **Dynamic creation of messages sources:** sensors can generate messages from different point access along the simulation.
+* **Dinamyc topology:** entities and network links can be created or removed along the simulation.
+* **Dinamyc creation of messages sources:** sensors can generate messages from different point access along the simulation.
 * And for hence, the **placement allocation algorithm** and **the orchestration algorithm,** that are extended by the user, can run along the simulation.
 * The **topology of the network** is based on [Complex Network theory](https://en.wikipedia.org/wiki/Complex_network). Thus, the algorithms can obtain more valuable indicators from topological features.
 * The **results** are stored in a raw format in a nosql database. The simpler the format, the easier it is to perform any type of statistics.
@@ -60,31 +58,35 @@ point for you. You can also try out some of the Examples (https://yafs.readthedo
 YAFS but in any case you have to understand the main concepts of Cloud Computing and other related architectures to design and modelling your own model.
 
 
-Installation (updated)
-----------------------
+Installation
+------------
 
-YAFS3 (New Branch) requires Python 3.6+ ~~
+**NOTE** A full implementation in Python 3.6 is available in other repository without any of the example folders [repo url](https://github.com/acsicuib/MARIO/tree/gauss2020). A total adaptation of the example is required to update this repo. Sorry for that, but the working is still the same! 
+
+YAFS requires Python 2.7 (Python 3.6 or above is not supported)
 
 1. Clone the project in your local folder:
 
 ```bash
-    $ git clone --branch YAFS3 https://github.com/acsicuib/YAFS
+    $ git clone https://github.com/acsicuib/YAFS
+
 ```
 
-2. Create one python virtual environment and install dependencies
+2. Install third-libraries with easy_install or pip commands
 
+* Simpy, Networkx, Numpy, Pandas, tqdm
+* gpxpy, geopy, smopy, shapely, scipy, pyproj
+* Note: Thanks to David for creating a conda dependency installation file: [URL](https://github.com/davidperezabreu/toshare)
 ```bash
-   (venv)$ python -m pip install -r requirements.txt
+   $ conda env update -f yafs.yml
 ```
 
-3. I recommend you IDE such as Pycharm (educational licence) to configure Python paths.
+
 
 Getting started & your first execution
 --------------------------------------
 
-
 To run some folder project you can create a simple bash script, with the following lines (please update the path according with your system) or you can use a python editor such as: Pycharm, Spyder, etc.
-Personally, I recommend you Pycharm since it integrates all the paths.
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:/<your path>/YAFS/src/:src/examples/Tutorial/
@@ -95,6 +97,33 @@ The [YAFS tutorial](https://yafs.readthedocs.io/en/latest/introduction/index.htm
 point for you. You can also try out some of the [Examples](https://yafs.readthedocs.io/en/latest/examples/index.html) shipped with
 YAFS but in any case you have to understand the main concepts of Cloud Computing and other related architectures to design and modelling your own model.
 
+
+A "SUPER" TIP: creating custom strategies
+-----------------------------------------
+We try to implement a wonderful tutorial but our time is limited. Thus, we can introduce this simple tip to create a custom strategy in the simulation.
+This example defines a **dynamical** strategy since along the simulation can altered other strategies or even the topology, the applications, or whatever thing that you wish to modify.
+
+For example, in your main.py function, you can declare a custom strategy with a deterministic distribution, and you can include the parameters that you want, i.e. the simulator class, and the routingPath.
+
+```python
+dStart = deterministicDistributionStartPoint(400, 100, name="Deterministic")
+evol= CustomStrategy()
+s.deploy_monitor("EvolutionOfServices",evol,dStart,**{"sim":s,"routing":selectorPath})
+```
+
+And finally you define the CustomStrategy() class:
+
+```python
+class CustomStrategy():
+
+    def __call__(self, sim,routing):
+        sim.print_debug_assignaments()
+        routing.print_control_services()
+        routing.my_var = False
+        #or whatever you want
+
+```
+**Note**: the sim variable is type of core.py, it means, it contains all the variables and strategies: topology, placements, applications, etc.
 
 Graph animations
 ----------------
@@ -108,13 +137,17 @@ ffmpeg -i out.mp4 -pix_fmt rgb24  out.gif
 
 ```
 
+from example/DynamicWorkload
 <img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/DynamicWorkload/figure/out.gif" width="350" height="350"/></a>
 
+from example/ConquestService
 <img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/ConquestService/out.gif" width="350" height="350"/></a>
 
-<img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/mobileTutorial/exp/results_20190326/out.gif" width="350" height="350"/></a>
+from example/mobileTutorial
+<img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/mobileTutorial/exp/results_20190326/out.gif" width="550" height="550"/></a>
 
-<img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/mobileTutorial/exp/results_20190326/out2.gif" width="350" height="350"/></a>
+from example/mobileTutorial
+<img src="https://github.com/acsicuib/YAFS/raw/master/src/examples/mobileTutorial/exp/results_20190326/out2.gif" width="550" height="550"/></a>
 
 
 
@@ -151,6 +184,7 @@ YAFS is used in the following projects:
 * Isaac Lera, Carlos Guerrero, Carlos Juiz. Availability-aware Service Placement Policy in Fog Computing Based on Graph Partitions. IEEE Internet of Things Journal 2019. 10.1109/JIOT.2018.2889511
 * Isaac Lera, Carlos Guerrero, Carlos Juiz. Analysing the Applicability of a Multi-Criteria Decision Method in Fog Computing
 Placement Problem. FMEC 2019
+* Antonio Brogi, Stefano Forti, Carlos Guerrero, Isaac Lera. [Towards Declarative Decentralised Application Management in the Fog](https://github.com/acsicuib/MARIO/tree/gauss2020). Proceedings at 2020 IEEE International Symposium on Software Reliability Engineering Workshops (ISSREW). 223--230, Coimbra, Portugal, 2020. 10.1109/ISSREW51248.2020.00077. 
 
 
 
