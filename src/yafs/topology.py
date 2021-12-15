@@ -54,12 +54,6 @@ class Topology:
         Returns:
             list: a list of edge attributes
         """
-        print("IM HERE TO2")
-        print("KEY")
-        print(key)
-        print("GEDGES")
-        print(self.G.edges)
-        print(self.G.edges[key])
         return self.G.edges[key]
 
     def get_nodes(self):
@@ -90,7 +84,7 @@ class Topology:
         Args:
              G (*networkx.classes.graph.Graph*)
         """
-        if isinstance(G, nx.classes.MultiDiGraph.Graph):
+        if isinstance(G, nx.classes.graph.Graph):
             self.G = G
         else:
             raise TypeError
@@ -122,8 +116,7 @@ class Topology:
             Args:
                  data (str): a json
         """
-        self.G = nx.DiGraph()
-        #nx.Graph
+        self.G = nx.Graph()
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW],PR=edge[self.LINK_PR])
 
@@ -154,7 +147,7 @@ class Topology:
         self.__init_uptimes()
 
     def load_all_node_attr(self,data):
-        self.G = nx.MultiDiGraph()
+        self.G = nx.Graph()
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
 
@@ -167,9 +160,6 @@ class Topology:
 
         for node in data["entity"]:
             self.nodeAttributes[node["id"]] = node
-
-        print("ATTRIBUTES")
-        print(self.G)
 
         self.__idNode = len(self.G.nodes)
         self.__init_uptimes()
@@ -260,5 +250,3 @@ class Topology:
         return self.size()
 
 
-class Entity:
-    pass
