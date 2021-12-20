@@ -44,11 +44,11 @@ class PartialEdgePlacement(Placement):
     def initial_allocation(self, sim, app_name):
         # We find the ID-nodo/resource
         edge = {"mytag": "edge"}  # or whatever tag
-        ground_station = {"mytag": "ground_station"}
+        base_station = {"mytag": "ground_station"}
         drone = {"mytag": "drone"}
 
         drone_cluster = sim.topology.find_IDs(drone)
-        gs_cluster = sim.topology.find_IDs(ground_station)
+        base_cluster = sim.topology.find_IDs(base_station)
         edge_cluster = sim.topology.find_IDs(edge)
         app = sim.apps[app_name]
         services = app.services
@@ -77,11 +77,11 @@ class FullEdgePlacement(Placement):
     def initial_allocation(self, sim, app_name):
         # We find the ID-nodo/resource
         edge = {"mytag": "edge"}  # or whatever tag
-        ground_station = {"mytag": "ground_station"}
+        base_station = {"mytag": "base_station"}
         drone = {"mytag": "drone"}
 
         drone_cluster = sim.topology.find_IDs(drone)
-        gs_cluster = sim.topology.find_IDs(ground_station)
+        base_cluster = sim.topology.find_IDs(base_station)
         edge_cluster = sim.topology.find_IDs(edge)
         app = sim.apps[app_name]
         services = app.services

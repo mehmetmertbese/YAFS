@@ -18,8 +18,9 @@ from yafs.application import Application, Message
 from yafs.population import *
 from yafs.topology import Topology
 
-from simpleSelection import MinimunPath
-import simplePlacement
+from src.examples.Tutorial.simpleSelection import MinimunPath
+import src.examples.Tutorial.simplePlacement as simplePlacement
+
 from yafs.stats import Stats
 from yafs.distribution import deterministic_distribution, deterministicDistributionStartPoint
 from yafs.application import fractional_selectivity
@@ -42,12 +43,12 @@ NUMBER_OF_UDP_PACKETS = np.ceil(UNCOMPRESSED_IMAGE_SIZE / 508)
 NUMBER_OF_FEATURES = 320
 FEATURE_SIZE = 12
 UPLINK_RATE = (100 / 8) * (10 ** -3)
-UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(11, 13)]
-DOWNLINK_RATE = (100) * (10 ** -3)
+UPLINK_RATE_ARRAY = [(x * ((1000 / 8) * (100 ** -3))) for x in range(1, 21)]
+DOWNLINK_RATE = (1000) * (10 ** -3)
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
 folder_results = str(folder_results) + "/"
-CSV_FILE = folder_results + 'sim_trace_full_r4_n20_faster_connection.csv'
+CSV_FILE = folder_results + 'base_station_uplink_rate_variations_4.csv'
 
 from yafs.placement import Placement
 
@@ -120,29 +121,34 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["entity"] = []
         topology_json["link"] = []
 
-        camera = {"id": 0, "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 4000, "COST": 3, "WATT": 40.0}
-        imu = {"id": 1, "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 4000, "COST": 3, "WATT": 40.0}
-        drone = {"id": 2, "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 4000, "COST": 3, "WATT": 40.0}
-        edge_device = {"id": 3, "model": "edge_server", "mytag": "edge",
-                       "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 40000, "COST": 3,
+        camera = {"id": 0, "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        imu = {"id": 1, "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        drone = {"id": 2, "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000, "COST": 3, "WATT": 40.0}
+        base_station = {"id": 3, "model": "base_station", "mytag": "base_station", "IPT": 20 * (10 ** 9),
+                        "RAM": 400000,
+                        "COST": 3, "WATT": 40.0}
+        edge_device = {"id": 4, "model": "edge_server", "mytag": "edge",
+                       "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 400000, "COST": 3,
                        "WATT": 20.0}
-        ground_station = {"id": 4, "model": "ground_station", "mytag": "ground_station", "IPT": 20 * (10 ** 9),
-                          "RAM": 4000,
-                          "COST": 3, "WATT": 40.0}
-        actuator_dev = {"id": 5, "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 4000, "COST": 3, "WATT": 40.0}
+        actuator_dev = {"id": 5, "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
 
         link1 = {"s": 0, "d": 2, "BW": 1000, "PR": 0}
         link2 = {"s": 1, "d": 2, "BW": 1000, "PR": 0}
         link3 = {"s": 2, "d": 3, "BW": uplink_rate, "PR": 0}
-        link4 = {"s": 2, "d": 4, "BW": 1000, "PR": 0}
+        link4 = {"s": 3, "d": 4, "BW": 1000, "PR": 0}
         link5 = {"s": 2, "d": 5, "BW": 1000, "PR": 0}
-        link6 = {"s": 3, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
+        link6 = {"s": 4, "d": 3, "BW": 1000, "PR": 0}
+        link7 = {"s": 3, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
+        #link8 = {"s": 2, "d": 3, "BW": uplink_rate, "PR": 0}
+        #link9 = {"s": 4, "d": 3, "BW": DOWNLINK_RATE, "PR": 0}
+        #link8 = {"s": 2, "d": 4, "BW": DOWNLINK_RATE, "PR": 0}
+        #link9 = {"s": 4, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
 
         topology_json["entity"].append(camera)
         topology_json["entity"].append(imu)
         topology_json["entity"].append(drone)
         topology_json["entity"].append(edge_device)
-        topology_json["entity"].append(ground_station)
+        topology_json["entity"].append(base_station)
         topology_json["entity"].append(actuator_dev)
 
         topology_json["link"].append(link1)
@@ -151,6 +157,11 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["link"].append(link4)
         topology_json["link"].append(link5)
         topology_json["link"].append(link6)
+        topology_json["link"].append(link7)
+        #topology_json["link"].append(link8)
+        #topology_json["link"].append(link9)
+        #topology_json["link"].append(link8)
+        #topology_json["link"].append(link9)
 
         print("TOPOLOGY JSON")
         print(topology_json)
@@ -175,7 +186,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     print(t)
 
     nx.write_gexf(t.G,
-                  folder_results + "graph_main1")  # you can export the Graph in multiples format to view in tools like Gephi, and so on.
+                  folder_results + "graph_main1.xml")  # you can export the Graph in multiples format to view in tools like Gephi, and so on.
 
     """
     APPLICATION
@@ -185,7 +196,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     PLACEMENT algorithm
     """
-    placement = simplePlacement.FullEdgePlacement("Partial")  # it defines the deployed rules: module-device
+    placement = simplePlacement.PartialEdgePlacement("Full")  # it defines the deployed rules: module-device
     placement.scaleService({"Image_Acquisition": 1, "IMU_Measurement_Acquisition": 1, "Feature_Extraction": 1,
                             "MSCKF_Update": 1, "Prediction": 1})
 
@@ -225,7 +236,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
 
     stop_time = simulated_time
-    s = Sim(t, default_results_path=folder_results + "sim_trace_full_r4_n20_faster_connection")
+    s = Sim(t, default_results_path=folder_results + "base_station_uplink_rate_variations_4")
 
     s.deploy_app2(app, placement, pop, selectorPath)
 
@@ -234,7 +245,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     s.run(stop_time, show_progress_monitor=False)  # To test deployments put test_initial_deploy a TRUE
     s.print_debug_assignaments()
-    folder_name = os.path.splitext(CSV_FILE)[0] + '_test7.csv'
+    folder_name = os.path.splitext(CSV_FILE)[0] + '_test20.csv'
 
     tim_out_read(CSV_FILE, uplink_rate)
 

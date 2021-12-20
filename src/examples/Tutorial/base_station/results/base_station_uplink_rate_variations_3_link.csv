@@ -1,0 +1,13 @@
+id,type,src,dst,app,latency,message,ctime,size,buffer
+1,LINK,0,2,6G_Drone,0.0,Image_Acquirement,10,0,0
+2,LINK,1,2,6G_Drone,0.0,Inertial_Data_Acquirement,10,0,1
+2,LINK,2,3,6G_Drone,1.12,Inertial_Data,10.0,280,0
+2,LINK,3,4,6G_Drone,2.8e-07,Inertial_Data,11.120000000000001,280,0
+2,LINK,4,3,6G_Drone,5.6e-08,Corrected_Pose,11.120000280000001,56,0
+2,LINK,3,2,6G_Drone,5.6e-05,Corrected_Pose,11.120000336,56,0
+2,LINK,2,5,6G_Drone,0.0,Pose_Prediction,11.120056336000001,0,0
+1,LINK,2,3,6G_Drone,15.376,Extracted Features,542.64,3844,0
+1,LINK,3,4,6G_Drone,3.844e-06,Extracted Features,558.016,3844,0
+1,LINK,4,3,6G_Drone,5.6e-08,Corrected_Pose,560.971003844,56,0
+1,LINK,3,2,6G_Drone,5.6e-05,Corrected_Pose,560.9710039,56,0
+1,LINK,2,5,6G_Drone,0.0,Pose_Prediction,560.9710599,0,0

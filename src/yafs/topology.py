@@ -54,12 +54,12 @@ class Topology:
         Returns:
             list: a list of edge attributes
         """
-        print("IM HERE TO2")
-        print("KEY")
-        print(key)
-        print("GEDGES")
-        print(self.G.edges)
-        print(self.G.edges[key])
+        # print("IM HERE TO2")
+        # print("KEY")
+        # print(key)
+        # print("GEDGES")
+        # print(self.G.edges)
+        # print(self.G.edges[key])
         return self.G.edges[key]
 
     def get_nodes(self):
@@ -90,7 +90,7 @@ class Topology:
         Args:
              G (*networkx.classes.graph.Graph*)
         """
-        if isinstance(G, nx.classes.MultiDiGraph.Graph):
+        if isinstance(G, nx.classes.DiGraph.Graph):
             self.G = G
         else:
             raise TypeError
@@ -154,7 +154,7 @@ class Topology:
         self.__init_uptimes()
 
     def load_all_node_attr(self,data):
-        self.G = nx.MultiDiGraph()
+        self.G = nx.DiGraph()
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
 

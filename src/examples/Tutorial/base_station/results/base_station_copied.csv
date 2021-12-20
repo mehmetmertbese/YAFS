@@ -1,0 +1,8 @@
+id,type,app,module,message,DES.src,DES.dst,TOPO.src,TOPO.dst,module.src,service,time_in,time_out,time_emit,time_reception
+1,COMP_M,6G_Drone,Image_Acquisition,Image_Acquirement,0,3,0,2,Camera,0.0,10.0,10.0,10.0,10.0
+2,COMP_M,6G_Drone,IMU_Measurement_Acquisition,Inertial_Data_Acquirement,1,4,1,2,IMU,0.0,10.0,10.0,10.0,10.0
+1,COMP_M,6G_Drone,Feature_Extraction,Image,3,5,2,4,Image_Acquisition,26.632,39.97351481018181,66.60551481018182,10.0,39.97351481018181
+2,COMP_M,6G_Drone,MSCKF_Update,Inertial_Data,4,6,2,4,IMU_Measurement_Acquisition,0.0,39.97351509018181,39.97351509018181,10.0,39.97351509018181
+1,COMP_M,6G_Drone,MSCKF_Update,Extracted Features,5,6,4,4,Feature_Extraction,2.955,66.60551481018182,69.56051481018181,66.60551481018182,66.60551481018182
+1,COMP_M,6G_Drone,Prediction,Corrected_Pose,6,7,4,2,MSCKF_Update,0.0,69.56107486618181,69.56107486618181,69.56051481018181,69.56107486618181
+1,SINK_M,6G_Drone,Pose_Correction,Pose_Prediction,7,2,2,5,Prediction,0,69.56107486618181,69.56107486618181,69.56107486618181,69.56107486618181

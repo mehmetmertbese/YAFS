@@ -16,7 +16,7 @@ from yafs.population import Population,Statical
 from yafs.application import Application, Message
 from yafs.metrics import Metrics
 from yafs.distribution import *
-import yafs.utils
+#import yafs.utils
 
 def compile_toc(entries, section_marker='='):
     """Compiles a list of sections with objects into sphinx formatted

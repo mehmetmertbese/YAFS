@@ -1,0 +1,5 @@
+id,type,src,dst,app,latency,message,ctime,size,buffer
+1,LINK,0,2,6G_Drone,0.0,Image_Acquirement,10,0,0
+2,LINK,1,2,6G_Drone,0.0,Inertial_Data_Acquirement,10,0,1
+1,LINK,2,3,6G_Drone,164627.968,Image,10.0,41156992.0,0
+2,LINK,2,3,6G_Drone,1.12,Inertial_Data,10.0,280,1
