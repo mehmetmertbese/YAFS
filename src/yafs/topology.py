@@ -90,7 +90,9 @@ class Topology:
         Args:
              G (*networkx.classes.graph.Graph*)
         """
-        if isinstance(G, nx.classes.DiGraph.Graph):
+        #if isinstance(G, nx.classes.graph.Graph):
+        if isinstance(G, nx.classes.digraph.DiGraph):
+        #if isinstance(G, nx.classes.multidigraph.MultiDiGraph):
             self.G = G
         else:
             raise TypeError
@@ -122,8 +124,10 @@ class Topology:
             Args:
                  data (str): a json
         """
+        #self.G = nx.Graph()
         self.G = nx.DiGraph()
-        #nx.Graph
+        #self.G = nx.MultiDiGraph()
+        #nx.DiGraph
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW],PR=edge[self.LINK_PR])
 
@@ -154,7 +158,10 @@ class Topology:
         self.__init_uptimes()
 
     def load_all_node_attr(self,data):
+        #self.G = nx.Graph()
         self.G = nx.DiGraph()
+        #self.G = nx.MultiDiGraph()
+
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
 

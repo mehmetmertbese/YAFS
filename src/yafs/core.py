@@ -9,6 +9,8 @@ This module unifies the event-discrete simulation environment with the rest of m
 
 import logging
 import copy
+import threading
+
 import simpy
 import warnings
 import random
@@ -119,6 +121,9 @@ class Sim:
         # key: id.source.process
         # value: Boolean
 
+        self.message_counters = {}
+        self.source_threads = []
+
         self.des_control_process = {}
         # key: app.name
         # value: des process
@@ -210,13 +215,15 @@ class Sim:
                 # print "MESSAGES"
                 # May be, the selector of path decides broadcasting multiples paths
                 for idx, path in enumerate(paths):
-                    print("IDX")
-                    print(idx)
-                    print("PATH")
-                    print(path)
-                    print("DES_dst")
-                    print(DES_dst[idx])
+                    #print("IDX")
+                    #print(idx)
+                    #print("PATH")
+                    #print(path)
+                    #print("DES_dst")
+                    #print(DES_dst[idx])
                     msg = copy.copy(message)
+                    #print("msg")
+                    #print(msg)
                     msg.path = copy.copy(path)
                     msg.app_name = app_name
                     msg.idDES = DES_dst[idx]
@@ -246,6 +253,7 @@ class Sim:
             # print "DST",message.dst
 
             # If same SRC and PATH or the message has achieved the penultimate node to reach the dst
+
             if not message.path or message.path[-1] == message.dst_int or len(message.path) == 1:
 
                 pipe_id = "%s%s%i" % (
@@ -255,14 +263,24 @@ class Sim:
                 # The message is sent to the module.pipe
                 self.consumer_pipes[pipe_id].put(message)
             else:
+                #print("penultimate")
+                #print("message_2")
+                #print(message)
+                #print(message.path)
+                #print(message.dst_int)
                 # The message is sent at first time or it sent more times.
                 # if message.dst_int < 0:
 
                 if (isinstance(message.dst_int, str) and len(message.dst_int) == 0) or \
                         (isinstance(message.dst_int, int) and message.dst_int < 0):
+                    #print('im here 3')
                     src_int = message.path[0]
                     message.dst_int = message.path[1]
+                    #print(message)
+                    #print(src_int)
+                    #print(message.dst_int)
                 else:
+                    #print("im here4")
                     src_int = message.dst_int
                     message.dst_int = message.path[message.path.index(message.dst_int) + 1]
                 # arista set by (src_int,message.dst_int)
@@ -309,6 +327,7 @@ class Sim:
                     # print "-" * 30
 
                     self.last_busy_time[link] = last_used
+                    #print("here successfully")
                     self.env.process(self.__wait_message(message, latency_msg_link, shift_time))
                 except:
                     # This fact is produced when a node or edge the topology is changed or disappeared
@@ -340,6 +359,7 @@ class Sim:
         """
         Simulates the transfer behavior of a message on a link
         """
+        #print("here5")
         self.network_pump += 1
         yield self.env.timeout(latency + shift_time)
         self.network_pump -= 1
@@ -407,9 +427,25 @@ class Sim:
         """
         self.logger.debug("Added_Process - Module Pure Source\t#DES:%i" % idDES)
         while not self.stop and self.des_process_running[idDES]:
+            #self.logger.debug("PROCESS")
+            #self.logger.debug(idDES)
             nextTime = distribution.next()
+            #print()
+            #print("NEXT TIME")
+            #print(nextTime)
+            #print()
             yield self.env.timeout(nextTime)
+            #print()
+            #print("I ARRIVED AFTER YIELD FOR PROCESS: ")
+            #print(idDES)
+            #print()
             if self.des_process_running[idDES]:
+                #print()
+                #print("PROCESSES RUNNING: ")
+                #print(self.des_process_running)
+                #print("PROCESSING SOURCE MODULE: ")
+                #print(idDES)
+                #print()
                 self.logger.debug("(App:%s#DES:%i)\tModule - Generating Message: %s \t(T:%d)" % (
                     name_app, idDES, message.name, self.env.now))
 
@@ -442,12 +478,12 @@ class Sim:
                 att_node = self.topology.G.nodes[id_node]
 
                 time_service = message.inst / float(att_node["IPT"])
-                print("MESSAGE_INST")
-                print(message.inst)
-                print("IPT")
-                print(float(att_node["IPT"]))
-                print("TIME SERVICE")
-                print(time_service)
+                #print("MESSAGE_INST")
+                #print(message.inst)
+                #print("IPT")
+                #print(float(att_node["IPT"]))
+                #print("TIME SERVICE")
+                #print(time_service)
 
             """
             it records the entity.id who sends this message
@@ -551,6 +587,7 @@ class Sim:
         """
         It generates a DES process associated to a compute module for the generation of messages
         """
+        self.message_counters[str(idDES)] = 0
         self.logger.debug("Added_Process - Module Source: %s\t#DES:%i" % (module, idDES))
         while (not self.stop) and self.des_process_running[idDES]:
             yield self.env.timeout(distribution.next())
@@ -569,8 +606,9 @@ class Sim:
         """
         It generates a DES process associated to a compute module
         """
-        self.logger.debug("Added_Process - Module Consumer: %s\t#DES:%i" % (module, ides))
 
+        #self.message_counters[str(ides)] = 0
+        self.logger.debug("Added_Process - Module Consumer: %s\t#DES:%i" % (module, ides))
         for register in register_consumer_msg:
             expected_messages = []
             if isinstance(register["message_in"], Message):
@@ -581,19 +619,23 @@ class Sim:
             # print("EXPECTED MESSAGES")
             # print(expected_messages)
             number_of_messages_expected = len(expected_messages)
-
+        # msg_counter = 0
+        #self.message_counters[str(ides)] = 0
         while not self.stop and self.des_process_running[ides]:
-            msg_counter = 0
-            print("DES PROCESS RUNNING")
-            print(self.des_process_running)
+            # msg_counter = 0
+            #self.message_counters[str(ides)] = 0
+            # print(self.message_counters)
+            # print("DES PROCESS RUNNING")
+            # print(self.des_process_running)
             if self.des_process_running[ides]:
-                print(ides)
+                # print(ides)
                 # msg = yield self.consumer_pipes["%s%s%i" % (app_name, module, ides)].get()
                 # print("MSG_DES")
                 # print(msg.path)
                 # print("REGISTER")
                 # print(register_consumer_msg[0])
                 # One pipe for each module name
+                self.message_counters[str(ides)] = 0
 
                 m = self.apps[app_name].services[module]
 
@@ -606,32 +648,41 @@ class Sim:
 
                 # print "Registers len: %i" %len(register_consumer_msg)
                 msgs = []
-                start_time = current_milli_time()
-
+                doBefore = False
                 for register in register_consumer_msg:
-                    doBefore = False
-                    while msg_counter < number_of_messages_expected:
-                        print("MSGS EXPECTED")
+                    while self.message_counters[str(ides)] < number_of_messages_expected:
+                        # print("MSGS EXPECTED")
+                        # print(number_of_messages_expected)
+                        # print(expected_messages)
+                        # print("MSGS")
+                        # print(msg_counter)
+                        # print("IM HERE2")
+                        #self.message_counters[str(ides)] = 0
+                        """
+                        start_time = current_milli_time()
+                        print("IDES")
+                        print(ides)
+                        print("ARRIVED MESSAGES")
+                        print(self.message_counters[str(ides)])
+                        print("NUMBER OF MESSAGES EXPECTED")
                         print(number_of_messages_expected)
-                        print(expected_messages)
-                        print("MSGS")
-                        print(msg_counter)
-                        print("IM HERE2")
+                        print("im stuck here")
+                        """
                         msg = yield self.consumer_pipes["%s%s%i" % (app_name, module, ides)].get()
                         if msg.name in expected_messages and msg not in msgs:
                             # if not doBefore:
+                            print("EXPECTED MESSAGES")
+                            print(expected_messages)
                             self.logger.debug(
                                 "(App:%s#DES:%i#%s)\tModule - Recording the message:\t%s" % (
                                     app_name, ides, module, msg.name))
                             type = self.NODE_METRIC
                             msgs.append(msg)
-                            msg_counter = msg_counter + 1
-                            print("MSGS NOW")
-                            print(msg_counter)
+                            self.message_counters[str(ides)] = self.message_counters[str(ides)] + 1
                             service_time = self.__update_node_metrics(app_name, module, msg, ides, type)
                             yield self.env.timeout(service_time)
 
-                            #if current_milli_time() - start_time > 1:
+                            # if current_milli_time() - start_time > 1:
                             #    continue
 
                     if not register["message_out"]:
@@ -639,20 +690,22 @@ class Sim:
                         Sink behaviour (nothing to send)
                         """
                         self.logger.debug(
-                            "(App:%s#DES:%i#%s)\tModule - Sink Message:\t%s" % (app_name, ides, module, msg.name))
-                        print("BREAK SUCCESSFUL-1")
+                            "(App:%s#DES:%i#%s)\tModule - Sink Message:\t%s" % (
+                            app_name, ides, module, msg.name))
+                        #print("BREAK SUCCESSFUL-1")
                         continue
-                        # break
+                    # break
                     else:
                         if register["dist"](
-                                **register["param"]):  ### THRESHOLD DISTRIBUTION to Accept the message from sourcE
+                                **register[
+                                    "param"]):  ### THRESHOLD DISTRIBUTION to Accept the message from sourcE
                             if not register["module_dest"]:
                                 # print(register["module_dest"])
                                 # print("IM FORWARDING")
                                 # it is not a broadcasting message
-                                self.logger.debug("(App:%s#DES:%i#%s)\tModule - Transmit Message:\t%s \t(T:%d)" % (
-                                    app_name, ides, module, register["message_out"].name, self.env.now))
-
+                                self.logger.debug(
+                                    "(App:%s#DES:%i#%s)\tModule - Transmit Message:\t%s \t(T:%d)" % (
+                                        app_name, ides, module, register["message_out"].name, self.env.now))
                                 msg_out = copy.copy(register["message_out"])
                                 msg_out.timestamp = self.env.now
                                 msg_out.id = msg.id
@@ -660,7 +713,7 @@ class Sim:
                                 msg_out.last_idDes.append(ides)
 
                                 self.__send_message(app_name, msg_out, ides, self.FORWARD_METRIC)
-                                print("BREAK SUCCESSFUL-2")
+                                #print("BREAK SUCCESSFUL-2")
                                 # break
 
                             else:
@@ -676,51 +729,51 @@ class Sim:
                                 for idx, module_dst in enumerate(register["module_dest"]):
                                     if random.random() <= register["p"][idx]:
                                         self.__send_message(app_name, msg_out, ides, self.FORWARD_METRIC)
-                                print("BREAK SUCCESSFUL-3")
+                                #print("BREAK SUCCESSFUL-3")
                                 # break
 
                         else:
                             self.logger.debug("(App:%s#DES:%i#%s)\tModule - Stopped Message:\t%s" % (
                                 app_name, ides, module, register["message_out"].name))
-                            print("BREAK SUCCESSFUL-4")
-                            # break
+                                #print("BREAK SUCCESSFUL-4")
+                                # break
 
-                # type = self.NODE_METRIC
-                #
-                # service_time = self.__update_node_metrics(app_name, module, msg, ides, type)
-                # yield self.env.timeout(service_time)
-                # expected_messages.remove(msg.name)
+                    # type = self.NODE_METRIC
+                    #
+                    # service_time = self.__update_node_metrics(app_name, module, msg, ides, type)
+                    # yield self.env.timeout(service_time)
+                    # expected_messages.remove(msg.name)
 
-                # print(msg_counter)
-                # The message can be treated by this module
-                """
-                Processing the message
-                """
-                # if ides == 3:
-                #     print "Consumer Message: %d " % self.env.now
-                #     print "MODULE DES: ",ides
-                #     print "id ",msg.id
-                #     print "name ",msg.name
-                #     print msg.path
-                #     print msg.dst_int
-                #     print msg.timestamp
-                #     print msg.dst
-                #
-                #     print "-" * 30
+                    # print(msg_counter)
+                    # The message can be treated by this module
+                    """
+                    Processing the message
+                    """
+                    # if ides == 3:
+                    #     print "Consumer Message: %d " % self.env.now
+                    #     print "MODULE DES: ",ides
+                    #     print "id ",msg.id
+                    #     print "name ",msg.name
+                    #     print msg.path
+                    #     print msg.dst_int
+                    #     print msg.timestamp
+                    #     print msg.dst
+                    #
+                    #     print "-" * 30
 
-                # The module only computes this type of message one time.
-                # It records once
-                # if not doBefore:
-                #     # for i in range(len(msgs)):
-                #     #     type = self.NODE_METRIC
-                #     #     print("MSGS")
-                #     #     print(len(msgs))
-                #     #     print(msgs[i])
-                #     #     print(i)
-                #     #     service_time = self.__update_node_metrics(app_name, module, msgs[i], ides, type)
-                #     #     yield self.env.timeout(service_time)
-                #     doBefore = True
-            print('BREAK SUCCESSFUL - 5')
+                    # The module only computes this type of message one time.
+                    # It records once
+                    # if not doBefore:
+                    #     # for i in range(len(msgs)):
+                    #     #     type = self.NODE_METRIC
+                    #     #     print("MSGS")
+                    #     #     print(len(msgs))
+                    #     #     print(msgs[i])
+                    #     #     print(i)
+                    #     #     service_time = self.__update_node_metrics(app_name, module, msgs[i], ides, type)
+                    #     #     yield self.env.timeout(service_time)
+                    #     doBefore = True
+                    # print('BREAK SUCCESSFUL - 5')
 
         print("IM HERE")
         self.logger.debug("STOP_Process - Module Consumer: %s\t#DES:%i" % (module, ides))
@@ -729,6 +782,7 @@ class Sim:
         """
         It generates a DES process associated to a SINK module
         """
+        self.message_counters[str(ides)] = 0
         self.logger.debug("Added_Process - Module Pure Sink: %s\t#DES:%i" % (module, ides))
         while not self.stop and self.des_process_running[ides]:
             msg = yield self.consumer_pipes["%s%s%i" % (app_name, module, ides)].get()
@@ -855,9 +909,13 @@ class Sim:
             id (int) the same input *id*
 
         """
+
         idDES = self.__get_id_process()
         self.des_process_running[idDES] = True
         self.env.process(self.__add_source_population(idDES, app_name, msg, distribution))
+        #source_thread = self.env.process(threading.Thread(target=self.__add_source_population, args=(idDES, app_name, msg, distribution, )))
+        #self.source_threads.append(source_thread)
+        #source_thread.start()
         self.alloc_DES[idDES] = id_node
         self.alloc_source[idDES] = {"id": id_node, "app": app_name, "module": msg.src, "name": msg.name}
         return idDES
@@ -939,7 +997,7 @@ class Sim:
         self.des_process_running[idDES] = True
         self.alloc_DES[idDES] = node
         self.__add_consumer_service_pipe(app_name, module, idDES)
-        # Update the relathionships among module-entity
+        # Update the relationships among module-entity
         if app_name in self.alloc_module:
             if module not in self.alloc_module[app_name]:
                 self.alloc_module[app_name][module] = []
@@ -1203,8 +1261,12 @@ class Sim:
         """
         Creating app.sources and deploy the sources in the topology
         """
+        print("POPULATION ITEMS")
+        print(self.population_policy.items())
         for pop in self.population_policy.items():
             for app_name in pop[1]["apps"]:
+                print("APP NAME")
+                print(app_name)
                 pop[1]["population_policy"].initial_allocation(self, app_name)
 
         """

@@ -42,12 +42,12 @@ NUMBER_OF_UDP_PACKETS = np.ceil(UNCOMPRESSED_IMAGE_SIZE / 508)
 NUMBER_OF_FEATURES = 320
 FEATURE_SIZE = 12
 UPLINK_RATE = (100 / 8) * (10 ** -3)
-UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(11, 81)]
+UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(1, 100)]
 DOWNLINK_RATE = (100) * (10 ** -3)
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
 folder_results = str(folder_results) + "/"
-CSV_FILE = folder_results + 'sim_trace_full_r4_n20_faster_connection.csv'
+CSV_FILE = folder_results + 'sim_trace_full_r4_n20_full_uplink_rate.csv'
 
 from yafs.placement import Placement
 
@@ -185,7 +185,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     PLACEMENT algorithm
     """
-    placement = simplePlacement.FullEdgePlacement("Partial")  # it defines the deployed rules: module-device
+    placement = simplePlacement.FullEdgePlacement("Full")  # it defines the deployed rules: module-device
     placement.scaleService({"Image_Acquisition": 1, "IMU_Measurement_Acquisition": 1, "Feature_Extraction": 1,
                             "MSCKF_Update": 1, "Prediction": 1})
 
@@ -204,8 +204,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     # pop.set_sink_control({"model": "client", "number": 3, "module": app.get_sink_modules()})
     pop.set_sink_control({"model": "actuator_device", "number": 1, "module": app.get_sink_modules()})
     # In addition, a source includes a distribution function:
-    dDistribution = deterministicDistributionStartPoint(name="Deterministic", time=10000, start=10)
-    dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic", time=10000, start=10)
+    dDistribution = deterministicDistributionStartPoint(name="Deterministic", time=100000, start=10)
+    dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic", time=100000, start=10)
     pop.set_src_control(
         {"model": "camera", "number": 1, "message": app.get_message("Image_Acquirement"),
          "distribution": dDistribution})
@@ -225,7 +225,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
 
     stop_time = simulated_time
-    s = Sim(t, default_results_path=folder_results + "sim_trace_full_r4_n20_faster_connection")
+    s = Sim(t, default_results_path=folder_results + "sim_trace_full_r4_n20_full_uplink_rate")
 
     s.deploy_app2(app, placement, pop, selectorPath)
 
@@ -243,7 +243,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
 
 def main():
     for i in range(len(UPLINK_RATE_ARRAY)):
-        up_rate_evaluation_fnc(simulated_time=4000, uplink_rate=UPLINK_RATE_ARRAY[i])
+        up_rate_evaluation_fnc(simulated_time=70000, uplink_rate=UPLINK_RATE_ARRAY[i])
 
 
 

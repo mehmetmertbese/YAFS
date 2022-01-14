@@ -18,8 +18,8 @@ from yafs.application import Application, Message
 from yafs.population import *
 from yafs.topology import Topology
 
-from src.examples.Tutorial.simpleSelection import MinimunPath
-import src.examples.Tutorial.simplePlacement as simplePlacement
+from examples.Tutorial.simpleSelection import MinimunPath, MinPath_RoundRobin, MertsPath
+import examples.Tutorial.simplePlacement as simplePlacement
 
 from yafs.stats import Stats
 from yafs.distribution import deterministic_distribution, deterministicDistributionStartPoint
@@ -43,12 +43,12 @@ NUMBER_OF_UDP_PACKETS = np.ceil(UNCOMPRESSED_IMAGE_SIZE / 508)
 NUMBER_OF_FEATURES = 320
 FEATURE_SIZE = 12
 UPLINK_RATE = (100 / 8) * (10 ** -3)
-UPLINK_RATE_ARRAY = [(x * ((1000 / 8) * (100 ** -3))) for x in range(1, 21)]
+UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(40, 41)]
 DOWNLINK_RATE = (1000) * (10 ** -3)
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
 folder_results = str(folder_results) + "/"
-CSV_FILE = folder_results + 'base_station_uplink_rate_variations_4.csv'
+CSV_FILE = folder_results + 'base_station_uplink_rate_variations_5.csv'
 
 from yafs.placement import Placement
 
@@ -121,28 +121,59 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["entity"] = []
         topology_json["link"] = []
 
-        camera = {"id": 0, "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
-        imu = {"id": 1, "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3, "WATT": 40.0}
-        drone = {"id": 2, "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000, "COST": 3, "WATT": 40.0}
-        base_station = {"id": 3, "model": "base_station", "mytag": "base_station", "IPT": 20 * (10 ** 9),
+        camera = {"id": 0, "model": "camera_1", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        imu = {"id": 1, "model": "imu_1", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        actuator_dev = {"id": 2, "model": "actuator_device_1", "IPT": 1 * (10 ** 6), "RAM": 400000, "COST": 3,
+                        "WATT": 40.0}
+        drone = {"id": 3, "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000, "COST": 3, "WATT": 40.0}
+
+
+
+        camera_2 = {"id": 4, "model": "camera_2", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        imu_2 = {"id": 5, "model": "imu_2", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3, "WATT": 40.0}
+        actuator_dev_2 = {"id": 6, "model": "actuator_device_2", "IPT": 1 * (10 ** 6), "RAM": 400000, "COST": 3,
+                          "WATT": 40.0}
+        drone_2 = {"id": 7, "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000, "COST": 3, "WATT": 40.0}
+
+
+
+        base_station = {"id": 8, "model": "base_station", "mytag": "base_station", "IPT": 20 * (10 ** 9),
                         "RAM": 400000,
                         "COST": 3, "WATT": 40.0}
-        edge_device = {"id": 4, "model": "edge_server", "mytag": "edge",
+        edge_device = {"id": 9, "model": "edge_server", "mytag": "edge",
                        "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 400000, "COST": 3,
                        "WATT": 20.0}
-        actuator_dev = {"id": 5, "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000, "COST": 3, "WATT": 40.0}
 
+        link1 = {"s": 0, "d": 3, "BW": 1000, "PR": 0}
+        link2 = {"s": 1, "d": 3, "BW": 1000, "PR": 0}
+        link3 = {"s": 3, "d": 8, "BW": uplink_rate, "PR": 0}
+        link4 = {"s": 8, "d": 9, "BW": 1000, "PR": 0}
+        link5 = {"s": 9, "d": 8, "BW": 1000, "PR": 0}
+        link6 = {"s": 3, "d": 2, "BW": 1000, "PR": 0}
+        link7 = {"s": 8, "d": 3, "BW": uplink_rate * 10, "PR": 0}
+
+        link1_2 = {"s": 4, "d": 7, "BW": 1000, "PR": 0}
+        link2_2 = {"s": 5, "d": 7, "BW": 1000, "PR": 0}
+        link3_2 = {"s": 7, "d": 8, "BW": uplink_rate, "PR": 0}
+        link4_2 = {"s": 8, "d": 7, "BW": uplink_rate * 10, "PR": 0}
+        link5_2 = {"s": 7, "d": 6, "BW": 1000, "PR": 0}
+
+        """
         link1 = {"s": 0, "d": 2, "BW": 1000, "PR": 0}
         link2 = {"s": 1, "d": 2, "BW": 1000, "PR": 0}
         link3 = {"s": 2, "d": 3, "BW": uplink_rate, "PR": 0}
         link4 = {"s": 3, "d": 4, "BW": 1000, "PR": 0}
-        link5 = {"s": 2, "d": 5, "BW": 1000, "PR": 0}
-        link6 = {"s": 4, "d": 3, "BW": 1000, "PR": 0}
-        link7 = {"s": 3, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
-        #link8 = {"s": 2, "d": 3, "BW": uplink_rate, "PR": 0}
-        #link9 = {"s": 4, "d": 3, "BW": DOWNLINK_RATE, "PR": 0}
-        #link8 = {"s": 2, "d": 4, "BW": DOWNLINK_RATE, "PR": 0}
-        #link9 = {"s": 4, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
+        link5 = {"s": 4, "d": 3, "BW": 1000, "PR": 0}
+        link6 = {"s": 2, "d": 5, "BW": 1000, "PR": 0}
+        link7 = {"s": 3, "d": 2, "BW": uplink_rate * 10, "PR": 0}
+        """
+        # link8 = {"s": 6, "d": 3, "BW": 1000, "PR": 0}
+        # link10 = {"s": 4, "d": 3, "BW": 1000, "PR": 0}
+
+        # link8 = {"s": 2, "d": 3, "BW": uplink_rate, "PR": 0}
+        # link9 = {"s": 4, "d": 3, "BW": DOWNLINK_RATE, "PR": 0}
+        # link8 = {"s": 2, "d": 4, "BW": DOWNLINK_RATE, "PR": 0}
+        # link9 = {"s": 4, "d": 2, "BW": DOWNLINK_RATE, "PR": 0}
 
         topology_json["entity"].append(camera)
         topology_json["entity"].append(imu)
@@ -151,6 +182,11 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["entity"].append(base_station)
         topology_json["entity"].append(actuator_dev)
 
+        topology_json["entity"].append(drone_2)
+        topology_json["entity"].append(camera_2)
+        topology_json["entity"].append(actuator_dev_2)
+        topology_json["entity"].append(imu_2)
+
         topology_json["link"].append(link1)
         topology_json["link"].append(link2)
         topology_json["link"].append(link3)
@@ -158,13 +194,19 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["link"].append(link5)
         topology_json["link"].append(link6)
         topology_json["link"].append(link7)
-        #topology_json["link"].append(link8)
-        #topology_json["link"].append(link9)
-        #topology_json["link"].append(link8)
-        #topology_json["link"].append(link9)
 
-        print("TOPOLOGY JSON")
-        print(topology_json)
+        topology_json["link"].append(link1_2)
+        topology_json["link"].append(link2_2)
+        topology_json["link"].append(link3_2)
+        topology_json["link"].append(link4_2)
+        topology_json["link"].append(link5_2)
+
+        # topology_json["link"].append(link8)
+        # topology_json["link"].append(link9)
+        # topology_json["link"].append(link10)
+
+        #print("TOPOLOGY JSON")
+        #print(topology_json)
 
         return topology_json
 
@@ -182,9 +224,6 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     t_json = create_json_topology(uplink_rate)
     t.load(t_json)
 
-    print("T")
-    print(t)
-
     nx.write_gexf(t.G,
                   folder_results + "graph_main1.xml")  # you can export the Graph in multiples format to view in tools like Gephi, and so on.
 
@@ -196,7 +235,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     PLACEMENT algorithm
     """
-    placement = simplePlacement.PartialEdgePlacement("Full")  # it defines the deployed rules: module-device
+    placement = simplePlacement.FullEdgePlacement("Full")  # it defines the deployed rules: module-device
     placement.scaleService({"Image_Acquisition": 1, "IMU_Measurement_Acquisition": 1, "Feature_Extraction": 1,
                             "MSCKF_Update": 1, "Prediction": 1})
 
@@ -213,15 +252,22 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     #     number (int): quantity of sinks linked in each device
     #     module (str): identifies the module from the app who receives the messages
     # pop.set_sink_control({"model": "client", "number": 3, "module": app.get_sink_modules()})
-    pop.set_sink_control({"model": "actuator_device", "number": 1, "module": app.get_sink_modules()})
+    pop.set_sink_control({"model": "actuator_device_1", "number": 1, "module": app.get_sink_modules()})
+    pop.set_sink_control({"model": "actuator_device_2", "number": 1, "module": app.get_sink_modules()})
     # In addition, a source includes a distribution function:
     dDistribution = deterministicDistributionStartPoint(name="Deterministic", time=10000, start=10)
-    dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic", time=10000, start=10)
+    dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic", time=10001, start=10)
     pop.set_src_control(
-        {"model": "camera", "number": 1, "message": app.get_message("Image_Acquirement"),
+        {"model": "camera_1", "number": 1, "message": app.get_message("Image_Acquirement"),
          "distribution": dDistribution})
     pop.set_src_control(
-        {"model": "imu", "number": 1, "message": app.get_message("Inertial_Data_Acquirement"),
+        {"model": "camera_2", "number": 1, "message": app.get_message("Image_Acquirement"),
+         "distribution": dDistribution_2})
+    pop.set_src_control(
+        {"model": "imu_1", "number": 1, "message": app.get_message("Inertial_Data_Acquirement"),
+         "distribution": dDistribution})
+    pop.set_src_control(
+        {"model": "imu_2", "number": 1, "message": app.get_message("Inertial_Data_Acquirement"),
          "distribution": dDistribution_2})
 
     """--
@@ -229,14 +275,14 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     # Their "selector" is actually the shortest way, there is not type of orchestration algorithm.
     # This implementation is already created in selector.class,called: First_ShortestPath
-    selectorPath = MinimunPath()
+    selectorPath = MertsPath()
 
     """
     SIMULATION ENGINE
     """
 
     stop_time = simulated_time
-    s = Sim(t, default_results_path=folder_results + "base_station_uplink_rate_variations_4")
+    s = Sim(t, default_results_path=folder_results + "base_station_uplink_rate_variations_5")
 
     s.deploy_app2(app, placement, pop, selectorPath)
 
@@ -247,15 +293,14 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     s.print_debug_assignaments()
     folder_name = os.path.splitext(CSV_FILE)[0] + '_test20.csv'
 
-    tim_out_read(CSV_FILE, uplink_rate)
+    # tim_out_read(CSV_FILE, uplink_rate)
 
     # s.draw_allocated_topology() # for debugging
 
 
 def main():
     for i in range(len(UPLINK_RATE_ARRAY)):
-        up_rate_evaluation_fnc(simulated_time=4000, uplink_rate=UPLINK_RATE_ARRAY[i])
-
+        up_rate_evaluation_fnc(simulated_time=10000, uplink_rate=UPLINK_RATE_ARRAY[i])
 
 
 if __name__ == '__main__':

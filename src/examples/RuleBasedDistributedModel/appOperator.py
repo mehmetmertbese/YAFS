@@ -23,7 +23,7 @@ class Mario():
                     for des in sim.alloc_module[app][service]:
                         logging.info("Generating a new agent control from: %s with id: %i"%(service,des))
 
-                        period = deterministicDistribution(100, name="Deterministic") #TODO fix the TIME
+                        period = deterministic_distribution(100, name="Deterministic") #TODO fix the TIME
                         pm = PolicyManager(des,service,pathCSV)
                         sim.deploy_monitor("Policy Manager %i"%des, pm, period, **{"sim": sim, "routing": routing})
 

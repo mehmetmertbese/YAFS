@@ -7,6 +7,8 @@
 
 """
 import logging
+import threading
+
 
 class Population(object):
     """
@@ -89,11 +91,28 @@ class Statical(Population):
 
     def initial_allocation(self,sim,app_name):
         #Assignment of SINK and SOURCE pure modules
+
+        #print("ATTRIBUTES")
+        #print(sim.topology.nodeAttributes)
+
         for id_entity in sim.topology.nodeAttributes:
+
+            #print("ID ENTITY")
+            #print(id_entity)
+
             entity = sim.topology.nodeAttributes[id_entity]
             for ctrl in self.sink_control:
                 #A node can have several sinks modules
                 if entity["model"]==ctrl["model"]:
+
+                    print()
+                    print("SINK CONTROL")
+                    print(self.sink_control)
+                    print("IM HERE")
+                    print(entity["model"])
+                    print(id_entity)
+                    print()
+
                     #In this node there is a sink
                     module = ctrl["module"]
                     for number in range(ctrl["number"]):
@@ -103,9 +122,24 @@ class Statical(Population):
             for ctrl in self.src_control:
                 # A node can have several source modules
                 if entity["model"] == ctrl["model"]:
+
+                    print()
+                    print("SOURCE CONTROL")
+                    print(self.src_control)
+                    print("IM HERE2")
+                    print(entity["model"])
+                    print(id_entity)
+                    print()
+
                     msg = ctrl["message"]
                     dst = ctrl["distribution"]
+                    source_threads = list()
                     for number in range(ctrl["number"]):
+                        #logging.info("BEING DEPLOYED: ")
+                        #logging.info(ctrl)
+                        #logging.info("DEPLOYED ENTITY: ")
+                        #logging.info(id_entity)
+                        #source_thread = threading.Thread(target=sim.deploy_source, kwargs= {'app_name': app_name, 'id_node':id_entity,'msg' : msg,'distribution':dst})
                         idsrc = sim.deploy_source(app_name,id_node=id_entity,msg=msg,distribution=dst)
                         # the idsrc can be used to control the deactivation of the process in a dynamic behaviour
 

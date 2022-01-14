@@ -1,6 +1,7 @@
 
 from yafs.selection import Selection
 import networkx as nx
+from math import inf
 
 class MinimunPath(Selection):
 
@@ -84,5 +85,46 @@ class MinPath_RoundRobin(Selection):
                 else:
                     bestPath = [path]
                     bestDES = [des]
+
+        return bestPath, bestDES
+
+class MertsPath(Selection):
+
+    def get_path(self, sim, app_name, message, topology_src, alloc_DES, alloc_module, traffic,from_des):
+
+        """
+        Computes the minimun path among the source element of the topology and the localizations of the module
+
+        Return the path and the identifier of the module deployed in the last element of that path
+        """
+        node_src = topology_src
+        DES_dst = alloc_module[app_name][message.dst]
+
+        print ("GET PATH")
+        print ("\tNode _ src (id_topology): %i" %node_src)
+        print ("\tRequest service: %s " %message.dst)
+        print ("\tProcess serving that service: %s " %DES_dst)
+
+        bestPath = []
+        bestDES = []
+        shortest_path_len = inf
+
+        for des in DES_dst: ## In this case, there are only one deployment
+            dst_node = alloc_DES[des]
+
+            print("DST NODE")
+            print(dst_node)
+
+            print ("\t\t Looking the path to id_node: %i" %dst_node)
+
+            path = list(nx.shortest_path(sim.topology.G, source=node_src, target=dst_node))
+            path_len = nx.shortest_path_length(sim.topology.G, source=node_src, target=dst_node)
+
+            if path_len < shortest_path_len:
+                bestPath = [path]
+                bestDES = [des]
+                shortest_path_len = path_len
+
+            #print("Decided path is: %s" %bestPath)
 
         return bestPath, bestDES

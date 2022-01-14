@@ -42,7 +42,7 @@ NUMBER_OF_UDP_PACKETS = np.ceil(UNCOMPRESSED_IMAGE_SIZE / 508)
 NUMBER_OF_FEATURES = 320
 FEATURE_SIZE = 12
 UPLINK_RATE = (100 / 8) * (10 ** -3)
-UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(11, 13)]
+UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(40, 41)]
 DOWNLINK_RATE = (100) * (10 ** -3)
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
@@ -185,7 +185,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     PLACEMENT algorithm
     """
-    placement = simplePlacement.FullEdgePlacement("Partial")  # it defines the deployed rules: module-device
+    placement = simplePlacement.FullEdgePlacement("Full")  # it defines the deployed rules: module-device
     placement.scaleService({"Image_Acquisition": 1, "IMU_Measurement_Acquisition": 1, "Feature_Extraction": 1,
                             "MSCKF_Update": 1, "Prediction": 1})
 
@@ -236,7 +236,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     s.print_debug_assignaments()
     folder_name = os.path.splitext(CSV_FILE)[0] + '_test7.csv'
 
-    tim_out_read(CSV_FILE, uplink_rate)
+    #tim_out_read(CSV_FILE, uplink_rate)
 
     # s.draw_allocated_topology() # for debugging
 

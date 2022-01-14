@@ -2,44 +2,98 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5dd8e1ac-0e9c-4e02-9f45-7b289d81d7f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/base_station.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/logging.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/multiple_base_stations_multiple_devices.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_2_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_test7.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2_uplunk_rate_variation.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3_uplunk_rate_variation.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4_uplunk_rate_variation.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_uplunk_rate_variation.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/graph_main1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/graph_main1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_link.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_test7.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_uplunk_rate_variation.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_uplunk_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/exp2/network.gexf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/exp2/results_20220111/Results_RTSG_150000_0.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/exp2/results_20220111/Results_RTSG_150000_0_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/logFile.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/plot_generator_cmpt_pwr_ratio.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/plot_generator_cmpt_pwr_ratio_combined.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/plot_generator_combined.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/combined_uplink_rate_fig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/edge_drone_cmpt_pwr_ratio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/edge_drone_cmpt_pwr_ratio_fast_uplink.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/edge_drone_cmpt_pwr_ratio_uplink_combined.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/edge_drone_cmpt_pwr_ratio_uplink_combined_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/full_uplink_rate_fig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/full_uplink_rate_fig_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/onboard_uplink_rate_fig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/onboard_uplink_rate_fig_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/partial_uplink_rate_fig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/partial_uplink_rate_fig_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio_fast_uplink.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio_fast_uplink_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio_fast_uplink_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_edge_cmpt_ratio_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_5_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_5_uplunk_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_full_offload_uplink_rate_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_full_offload_uplink_rate_uplink_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_full_uplink_rate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_full_uplink_rate_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_full_uplink_rate_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_onboard_uplink_rate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_onboard_uplink_rate_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_onboard_uplink_rate_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_onboard_uplink_rate_uplink_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_onboard_uplink_rate_uplink_rate_variation_edited.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_offload_uplink_rate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_offload_uplink_rate_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_offload_uplink_rate_uplink_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_offload_uplink_rate_uplunk_rate_variation.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_uplink_rate.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_uplink_rate_edited_2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_partial_uplink_rate_link.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/test_fig3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone_edge_cmpt_power.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/YAFS-6G.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/YAFS-6G.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/appOperator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/appOperator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/RuleBasedDistributedModel/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/base_station.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/logging.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/multiple_base_stations_multiple_devices.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_2_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_copied_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_test7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_2_uplunk_rate_variation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_3_uplunk_rate_variation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_4_uplunk_rate_variation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/base_station_uplink_rate_variations_uplunk_rate_variation.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/graph_main1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/graph_main1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_link.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_test7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/base_station/results/sim_trace_full_r4_n20_faster_connection_uplunk_rate_variation.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/csv_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/csv_reader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/plot_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/plot_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/graph_main1" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/graph_main1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_test7.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_test7.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_link.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_link.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_uplunk_rate_variation.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/sim_trace_full_r4_n20_faster_connection_uplunk_rate_variation.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/results/test_fig2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/results/test_fig2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/simplePlacement.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/simplePlacement.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/simpleSelection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/simpleSelection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone_uplink_rate.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone_uplink_rate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/yafs/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/yafs/core.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/yafs/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/yafs/population.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/yafs/topology.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/yafs/topology.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,14 +110,18 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
       <filtered-out-file-type name="REMOTE_BRANCH" />
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/examples/Tutorial/sixg_drone.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/yafs/core.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -83,8 +141,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="full.screen.before.presentation.mode" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -92,7 +154,51 @@
       <recent name="$PROJECT_DIR$/src/examples/Tutorial" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sixg_drone_uplink_rate">
+  <component name="RunManager" selected="Python.arbitrary_number_of_devices">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="YAFS-6G" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="arbitrary_number_of_devices" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="YAFS-6G" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Base Station" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Base Station/arbitrary_number_of_devices.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="base_station" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="YAFS-6G" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -108,14 +214,14 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/base_station/base_station.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="plot_generator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="multiple_base_stations_multiple_devices" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="YAFS-6G" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -123,21 +229,21 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/plot_generator.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/base_station/multiple_base_stations_multiple_devices.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sixg_drone" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="multiple_base_stations_multiple_devices_different_APProach (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="YAFS-6G" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -145,21 +251,21 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Base Station/base_station" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Base Station/base_station/multiple_base_stations_multiple_devices_different_APProach.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sixg_drone_uplink_rate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="multiple_base_stations_multiple_devices_different_APProach" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="YAFS-6G" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -167,49 +273,34 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone_uplink_rate.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/base_station/multiple_base_stations_multiple_devices_different_APProach.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sixg_drone_uplink_rate_multiple_devices" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="YAFS-6G" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/examples/Tutorial" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/examples/Tutorial/sixg_drone_uplink_rate_multiple_devices.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="Python.base_station" />
+      <item itemvalue="Python.multiple_base_stations_multiple_devices" />
+      <item itemvalue="Python.multiple_base_stations_multiple_devices_different_APProach" />
+      <item itemvalue="Python.multiple_base_stations_multiple_devices_different_APProach (1)" />
+      <item itemvalue="Python.arbitrary_number_of_devices" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sixg_drone_uplink_rate" />
+        <item itemvalue="Python.arbitrary_number_of_devices" />
+        <item itemvalue="Python.multiple_base_stations_multiple_devices_different_APProach (1)" />
+        <item itemvalue="Python.multiple_base_stations_multiple_devices_different_APProach" />
         <item itemvalue="Python.base_station" />
-        <item itemvalue="Python.sixg_drone" />
-        <item itemvalue="Python.sixg_drone_uplink_rate_multiple_devices" />
-        <item itemvalue="Python.plot_generator" />
+        <item itemvalue="Python.multiple_base_stations_multiple_devices" />
       </list>
     </recent_temporary>
   </component>
@@ -224,12 +315,41 @@
       <workItem from="1638545148703" duration="62009000" />
       <workItem from="1638973025621" duration="6947000" />
       <workItem from="1639329024066" duration="25099000" />
-      <workItem from="1639565666736" duration="43716000" />
+      <workItem from="1639565666736" duration="85260000" />
+      <workItem from="1640188319645" duration="613000" />
+      <workItem from="1640359951523" duration="1308000" />
+      <workItem from="1640617701820" duration="250000" />
+      <workItem from="1640617968394" duration="7310000" />
+      <workItem from="1640640331032" duration="1433000" />
+      <workItem from="1640692348991" duration="2605000" />
+      <workItem from="1640794045065" duration="11670000" />
+      <workItem from="1640954990394" duration="2900000" />
+      <workItem from="1641468831735" duration="1757000" />
+      <workItem from="1641471709189" duration="3335000" />
+      <workItem from="1641551198207" duration="6048000" />
+      <workItem from="1641743445815" duration="20598000" />
+      <workItem from="1641893850753" duration="15686000" />
+      <workItem from="1641979483186" duration="11263000" />
+      <workItem from="1642064714919" duration="13814000" />
+      <workItem from="1642092557499" duration="4081000" />
+      <workItem from="1642150819251" duration="885000" />
+      <workItem from="1642153285870" duration="3402000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -245,15 +365,32 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint enabled="true" log-message="true" log-stack="true" type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/YAFS_6G$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1638548736581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
     <SUITE FILE_PATH="coverage/YAFS_6G$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1639564386090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/mobileTutorial" />
-    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_base_station.coverage" NAME="sixg_drone_base_station Coverage Results" MODIFIED="1639564190818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$multiple_base_stations_multiple_devices_different_APProach.coverage" NAME="multiple_base_stations_multiple_devices_different_APProach Coverage Results" MODIFIED="1641983230340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
     <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_uplink_rate_multiple_devices.coverage" NAME="sixg_drone_uplink_rate_multiple_devices Coverage Results" MODIFIED="1639649741386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
-    <SUITE FILE_PATH="coverage/YAFS_6G$base_station.coverage" NAME="base_station Coverage Results" MODIFIED="1639955362628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
-    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone.coverage" NAME="sixg_drone Coverage Results" MODIFIED="1639651046862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$multiple_base_stations_multiple_devices.coverage" NAME="multiple_base_stations_multiple_devices Coverage Results" MODIFIED="1642092664023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$base_station.coverage" NAME="base_station Coverage Results" MODIFIED="1642094405007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial/base_station" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$plot_generator_cmpt_pwr_ratio_combined.coverage" NAME="plot_generator_cmpt_pwr_ratio_combined Coverage Results" MODIFIED="1640007536405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone.coverage" NAME="sixg_drone Coverage Results" MODIFIED="1641830227234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
     <SUITE FILE_PATH="coverage/YAFS_6G$main.coverage" NAME="main Coverage Results" MODIFIED="1639564333733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/DynamicAllocation" />
-    <SUITE FILE_PATH="coverage/YAFS_6G$plot_generator.coverage" NAME="plot_generator Coverage Results" MODIFIED="1639420770189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
-    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_uplink_rate.coverage" NAME="sixg_drone_uplink_rate Coverage Results" MODIFIED="1639938281416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$plot_generator_combined.coverage" NAME="plot_generator_combined Coverage Results" MODIFIED="1640000114014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1638548736581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_base_station.coverage" NAME="sixg_drone_base_station Coverage Results" MODIFIED="1639564190818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_edge_cmpt_power.coverage" NAME="sixg_drone_edge_cmpt_power Coverage Results" MODIFIED="1640003134976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$plot_generator_cmpt_pwr_ratio.coverage" NAME="plot_generator_cmpt_pwr_ratio Coverage Results" MODIFIED="1640003174127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$sixg_drone_uplink_rate.coverage" NAME="sixg_drone_uplink_rate Coverage Results" MODIFIED="1639998641350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
+    <SUITE FILE_PATH="coverage/YAFS_6G$plot_generator.coverage" NAME="plot_generator Coverage Results" MODIFIED="1639998682800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/examples/Tutorial" />
   </component>
 </project>

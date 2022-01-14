@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <gexf version="1.2" xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd">
-  <meta lastmodifieddate="2021-12-20">
+  <meta lastmodifieddate="2022-01-10">
     <creator>NetworkX 2.5</creator>
   </meta>
   <graph defaultedgetype="directed" mode="static" name="">
@@ -52,7 +52,7 @@
       </edge>
       <edge id="1" source="2" target="3">
         <attvalues>
-          <attvalue for="1" value="0.1" />
+          <attvalue for="1" value="0.05" />
           <attvalue for="2" value="0" />
         </attvalues>
       </edge>
