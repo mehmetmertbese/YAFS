@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 
-
 import networkx as nx
 import warnings
 
@@ -23,8 +22,6 @@ class Topology:
     NODE_IPT = "IPT"
     "Node feature: IPS . Instructions per Simulation Time "
 
-
-
     def __init__(self, logger=None):
 
         # G is a nx.networkx graph
@@ -32,12 +29,9 @@ class Topology:
         self.nodeAttributes = {}
         self.logger = logger or logging.getLogger(__name__)
 
-
-
-
     def __init_uptimes(self):
         for key in self.nodeAttributes:
-            self.nodeAttributes[key]["uptime"] = (0, None)
+            self.nodeAttributes[key].uptime = (0, None)
 
     def get_edges(self):
         """
@@ -46,7 +40,7 @@ class Topology:
         """
         return self.G.edges
 
-    def get_edge(self,key):
+    def get_edge(self, key):
         """
         Args:
             key (str): a edge identifier, i.e. (1,9)
@@ -79,7 +73,6 @@ class Topology:
         """
         return self.G.node[key]
 
-
     def get_info(self):
         return self.nodeAttributes
 
@@ -90,9 +83,9 @@ class Topology:
         Args:
              G (*networkx.classes.graph.Graph*)
         """
-        #if isinstance(G, nx.classes.graph.Graph):
+        # if isinstance(G, nx.classes.graph.Graph):
         if isinstance(G, nx.classes.digraph.DiGraph):
-        #if isinstance(G, nx.classes.multidigraph.MultiDiGraph):
+            # if isinstance(G, nx.classes.multidigraph.MultiDiGraph):
             self.G = G
         else:
             raise TypeError
@@ -124,18 +117,16 @@ class Topology:
             Args:
                  data (str): a json
         """
-        #self.G = nx.Graph()
+        # self.G = nx.Graph()
         self.G = nx.DiGraph()
-        #self.G = nx.MultiDiGraph()
-        #nx.DiGraph
+        # self.G = nx.MultiDiGraph()
+        # nx.DiGraph
         for edge in data["link"]:
-            self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW],PR=edge[self.LINK_PR])
+            self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
 
-
-        #TODO This part can be removed in next versions
         for node in data["entity"]:
-            self.nodeAttributes[node["id"]] = node
-        #end remove
+            self.nodeAttributes[node.id] = node
+        # end remove
 
         # Correct way to use custom and mandatory topology attributes
 
@@ -143,24 +134,23 @@ class Topology:
         # valuesRAM = {}
         for node in data["entity"]:
             try:
-                valuesIPT[node["id"]] = node["IPT"]
+                valuesIPT[node.id] = node.ipt
             except KeyError:
-                valuesIPT[node["id"]] = 0
+                valuesIPT[node.id] = 0
             # try:
             #     valuesRAM[node["id"]] = node["RAM"]
             # except KeyError:
             #     valuesRAM[node["id"]] = 0
 
-
-        nx.set_node_attributes(self.G,values=valuesIPT,name="IPT")
+        nx.set_node_attributes(self.G, values=valuesIPT, name="IPT")
         # nx.set_node_attributes(self.G,values=valuesRAM,name="RAM")
 
         self.__init_uptimes()
 
-    def load_all_node_attr(self,data):
-        #self.G = nx.Graph()
+    def load_all_node_attr(self, data):
+        # self.G = nx.Graph()
         self.G = nx.DiGraph()
-        #self.G = nx.MultiDiGraph()
+        # self.G = nx.MultiDiGraph()
 
         for edge in data["link"]:
             self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
@@ -181,10 +171,7 @@ class Topology:
         self.__idNode = len(self.G.nodes)
         self.__init_uptimes()
 
-
-
-
-    def load_graphml(self,filename):
+    def load_graphml(self, filename):
         warnings.warn("The load_graphml function is deprecated and "
                       "will be removed in version 2.0.0. "
                       "Use NX.READ_GRAPHML function instead.",
@@ -202,8 +189,7 @@ class Topology:
             attNodes[k] = {"IPT": 1}
         nx.set_node_attributes(self.G, values=attNodes)
         for k in self.G.nodes():
-            self.nodeAttributes[k] = self.G.node[k] #it has "id" att. TODO IMPROVE
-
+            self.nodeAttributes[k] = self.G.node[k]  # it has "id" att. TODO IMPROVE
 
     def get_nodes_att(self):
         """
@@ -212,7 +198,7 @@ class Topology:
         """
         return self.nodeAttributes
 
-    def find_IDs(self,value):
+    def find_IDs(self, value):
         """
         Search for nodes with the same attributes that value
 
@@ -227,11 +213,9 @@ class Topology:
         result = []
         for key in self.nodeAttributes.keys():
             val = self.nodeAttributes[key]
-            if keyS in val:
-                if value[keyS] == val[keyS]:
-                    result.append(key)
+            if value[keyS] == val.mytag:
+                result.append(key)
         return result
-
 
     def size(self):
         """

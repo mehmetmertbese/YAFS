@@ -28,7 +28,7 @@ class Placement(object):
 
     def __init__(self,name,activation_dist=None,logger=None):
         self.logger = logger or logging.getLogger(__name__)
-        self.name=name
+        self.name = name
         self.activation_dist = activation_dist
         self.scaleServices = []
 
@@ -160,7 +160,6 @@ class EdgePlacement(Placement):
         id_proxies = sim.topology.find_IDs(value)
 
 
-
         value = {"model": "m-"}
         id_mobiles = sim.topology.find_IDs(value)
 
@@ -169,8 +168,6 @@ class EdgePlacement(Placement):
         services = app.services
 
         for module in services.keys():
-
-            print (module)
 
             if "Coordinator" == module:
                 idDES = sim.deploy_module(app_name,module,services[module],id_cluster) #Deploy as many modules as elements in the array

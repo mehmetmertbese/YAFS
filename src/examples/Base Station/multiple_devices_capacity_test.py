@@ -1,10 +1,3 @@
-"""
-
-    Created on Wed Nov 22 15:03:21 2017
-
-    @author: isaac
-
-"""
 import random
 import networkx as nx
 import argparse
@@ -19,11 +12,13 @@ from yafs.population import *
 from yafs.topology import Topology
 
 from examples.Tutorial.simpleSelection import MinimunPath, MinPath_RoundRobin, MertsPath
-from examples.Tutorial.simplePlacement import FullEdgePlacement, Mert_FullEdgePlacement, Mert_FullEdgePlacement_Arbitrary_Number
+from examples.Tutorial.simplePlacement import FullEdgePlacement, Mert_FullEdgePlacement, \
+    Mert_FullEdgePlacement_Arbitrary_Number
 
 from yafs.stats import Stats
 from yafs.distribution import deterministic_distribution, deterministicDistributionStartPoint
 from yafs.application import fractional_selectivity
+from yafs.entities_mert import Entity
 from examples.Tutorial.csv_reader import tim_out_read
 import pandas as pd
 import threading
@@ -46,17 +41,21 @@ FEATURE_SIZE = 12
 UPLINK_RATE = (100 / 8) * (10 ** -3)
 UPLINK_RATE_ARRAY = [(x * ((10 / 8) * (10 ** -3))) for x in range(40, 41)]
 DOWNLINK_RATE = (1000) * (10 ** -3)
-NUM_OF_MOBILES_CONNECTED_PER_BS = 10
+USERS_PER_BS = 20
 NUM_OF_BS = 2
+NUM_OF_USERS = USERS_PER_BS * NUM_OF_BS
 
-global ID_BASE_STATIONS
-ID_BASE_STATION = 1907
+global ID_COUNTER_BS
+ID_COUNTER_BS = 1907
 
 global ID_EDGE_SERVER
 ID_EDGE_SERVER = 1966
 
 global ID_COUNTER_ENTITY
 ID_COUNTER_ENTITY = 0
+
+global ID_COUNTER_USER
+ID_COUNTER_USER = 0
 
 global links
 links = list()
@@ -68,52 +67,97 @@ folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
 folder_results = str(folder_results) + "/"
 CSV_FILE = folder_results + 'base_station_arbitrary_number_of_devices.csv'
-from yafs.placement import Placement
 
 
-def id_count():
+# from yafs.placement import Placement
+
+
+def id_counter_entity():
     global ID_COUNTER_ENTITY
-    prev_id_count = ID_COUNT
-    ID_COUNT += 1
+    prev_id_count = ID_COUNTER_ENTITY
+    ID_COUNTER_ENTITY += 1
     return prev_id_count
+
+
+def id_counter_bs():
+    global ID_COUNTER_BS
+    prev_bs_count = ID_COUNTER_BS
+    ID_COUNTER_BS += 1
+    return prev_bs_count
+
+
+def id_counter_user():
+    global ID_COUNTER_USER
+    prev_user_count = ID_COUNTER_USER
+    ID_COUNTER_USER += 1
+    return prev_user_count
 
 
 # @profile
 def up_rate_evaluation_fnc(simulated_time, uplink_rate):
+    def add_drone(uplink_rate, user_id, attached_bs_id):
 
-    def add_drone(uplink_rate, user_no):
+        id_camera = ID_COUNTER_ENTITY
+        camera_user = Entity(id=id_counter_entity(), model="camera", ipt=100 * (10 ** 6), ram=400000,
+                             cost=3, power_consumption=40.0, user=user_id)
+        # camera_user = {"id": id_counter_entity(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
+        #                "WATT": 40.0, "user": user_id}
 
-        ID_CAMERA = ID_COUNTER_ENTITY
-        camera_user = {"id": id_count(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
-                       "WATT": 40.0, "user": user_no}
+        id_imu = ID_COUNTER_ENTITY
+        imu_user = Entity(id=id_counter_entity(), model="imu", ipt=100 * (10 ** 9), ram=400000,
+                          cost=3, power_consumption=40.0, user=user_id)
+        # imu_user = {"id": id_counter_entity(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3,
+        #             "WATT": 40.0, "user": user_id}
 
-        ID_IMU = ID_COUNTER_ENTITY
-        imu_user = {"id": id_count(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3, "WATT": 40.0, "user": user_no}
+        id_actuator = ID_COUNTER_ENTITY
+        actuator_user = Entity(id=id_counter_entity(), model="actuator_device", ipt=1 * (10 ** 6), ram=400000,
+                               cost=3, power_consumption=40.0, user=user_id)
+        # actuator_user = {"id": id_counter_entity(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000,
+        #                  "COST": 3,
+        #                  "WATT": 40.0, "user": user_id}
 
-        ID_ACTUATOR = ID_COUNTER_ENTITY
-        actuator_user = {"id": id_count(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000, "COST": 3,
-                         "WATT": 40.0, "user": user_no}
+        id_drone = ID_COUNTER_ENTITY
+        drone_user = Entity(id=id_counter_entity(), model="drone_user", ipt=DRONE_CPU, ram=400000,
+                            cost=3, power_consumption=40.0, user=user_id, mytag = "drone")
+        # drone_user = {"id": id_counter_entity(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000,
+        #               "COST": 3,
+        #               "WATT": 40.0, "user": user_id}
 
-        ID_DRONE = ID_COUNTER_ENTITY
-        drone_user = {"id": id_count(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000, "COST": 3,
-                      "WATT": 40.0, "user": user_no}
-
-        links.append({"s": ID_CAMERA, "d": ID_DRONE, "BW": 1000, "PR": 0})
-        links.append({"s": ID_IMU, "d": ID_DRONE, "BW": 1000, "PR": 0})
-        links.append({"s": ID_DRONE, "d": ID_ACTUATOR, "BW": 1000, "PR": 0})
-        links.append({"s": ID_DRONE, "d": ID_BASE_STATION, "BW": uplink_rate, "PR": 0})
-        links.append({"s": ID_BASE_STATION, "d": ID_DRONE, "BW": uplink_rate, "PR": 0})
+        links.append({"s": id_camera, "d": id_drone, "BW": 1000, "PR": 0})
+        links.append({"s": id_imu, "d": id_drone, "BW": 1000, "PR": 0})
+        links.append({"s": id_drone, "d": id_actuator, "BW": 1000, "PR": 0})
+        links.append({"s": id_drone, "d": attached_bs_id, "BW": uplink_rate, "PR": 0})
+        links.append({"s": attached_bs_id, "d": id_drone, "BW": uplink_rate, "PR": 0})
 
         entitities.append(camera_user)
         entitities.append(imu_user)
         entitities.append(actuator_user)
         entitities.append(drone_user)
 
-    def create_application(name):
-        # APLICATION
-        a = Application(name)
+    def add_bs_and_drones(attached_edge_server_ids):
 
-        # (S) --> (ServiceA) --> (A)
+        id_bs = ID_COUNTER_BS
+        base_station = Entity(id=id_counter_entity(), model="base_station", ipt=2000 * (10 ** 9), ram=400000,
+                              cost=3, power_consumption=40.0, user=id_bs, mytag="base_station")
+        # base_station = {"id": id_counter_bs(), "model": "base_station", "mytag": "base_station",
+        #                 "IPT": 2000 * (10 ** 9),
+        #                 "RAM": 4000000,
+        #                 "COST": 3, "WATT": 40.0}
+
+        entitities.append(base_station)
+
+        for i in range(USERS_PER_BS):
+            add_drone(uplink_rate, id_counter_user(), id_bs)
+
+        for i in range(len(attached_edge_server_ids)):
+            links.append({"s": id_bs, "d": attached_edge_server_ids[i], "BW": 1000, "PR": 0})
+            links.append({"s": attached_edge_server_ids[i], "d": id_bs, "BW": 1000, "PR": 0})
+
+        return id_bs
+
+    def create_application(name):
+
+        a = Application(name)
         a.set_modules([{"Camera": {"Type": Application.TYPE_SOURCE}},
                        {"IMU": {"Type": Application.TYPE_SOURCE}},
                        {"Image_Acquisition": {"RAM": 5000, "Type": Application.TYPE_MODULE}},
@@ -163,9 +207,9 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         return a
 
     def create_json_topology(uplink_rate):
+
         """
            TOPOLOGY DEFINITION
-
            Some attributes of fog entities (nodes) are approximate
            """
 
@@ -174,24 +218,24 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["entity"] = []
         topology_json["link"] = []
 
-        base_station = {"id": ID_BASE_STATION, "model": "base_station", "mytag": "base_station", "IPT": 20 * (10 ** 9),
-                        "RAM": 400000,
-                        "COST": 3, "WATT": 40.0}
+        edge_device = Entity(id=ID_EDGE_SERVER, model="edge_server", ipt=DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO,
+                             ram=1000,
+                             cost=3, power_consumption=20.0, mytag="edge")
 
-        edge_device = {"id": ID_EDGE_SERVER, "model": "edge_server", "mytag": "edge",
-                       "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 100000, "COST": 3,
-                       "WATT": 20.0}
+        # edge_device = {"id": ID_EDGE_SERVER, "model": "edge_server", "mytag": "edge",
+        #                "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 1000, "COST": 3,
+        #                "WATT": 20.0}
 
-        entitities.append(base_station)
+        edge_server_ids = [ID_EDGE_SERVER]
         entitities.append(edge_device)
 
-        for i in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
-            add_drone(uplink_rate, i)
+        for i in range(NUM_OF_BS):
+            add_bs_and_drones(edge_server_ids)
 
-        link_bs_edge = {"s": ID_BASE_STATION, "d": ID_EDGE_SERVER, "BW": 1000, "PR": 0}
-        link_edge_bs = {"s": ID_EDGE_SERVER, "d": ID_BASE_STATION, "BW": 1000, "PR": 0}
-        links.append(link_bs_edge)
-        links.append(link_edge_bs)
+        # link_bs_edge = {"s": ID_BASE_STATION, "d": ID_EDGE_SERVER, "BW": 1000, "PR": 0}
+        # link_edge_bs = {"s": ID_EDGE_SERVER, "d": ID_BASE_STATION, "BW": 1000, "PR": 0}
+        # links.append(link_bs_edge)
+        # links.append(link_edge_bs)
 
         for i in range(len(entitities)):
             topology_json["entity"].append(entitities[i])
@@ -222,8 +266,9 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     APPLICATION
     """
     apps = list()
-    for user in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
+    for user in range(NUM_OF_USERS):
         app = create_application("6G_DRONE_" + str(user))
+        app.set_number(user)
         apps.append(app)
 
     # app_1 = create_application("6G_Drone_1")
@@ -233,10 +278,10 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     PLACEMENT algorithm
     """
     placements = list()
-    for user in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
+    for user in range(NUM_OF_USERS):
         placement = Mert_FullEdgePlacement_Arbitrary_Number("Placement_" + str(user))
         placement.scaleService({"Image_Acquisition": 1, "IMU_Measurement_Acquisition": 1, "Feature_Extraction": 1,
-                      "MSCKF_Update": 1, "Prediction": 1})
+                                "MSCKF_Update": 1, "Prediction": 1})
         placements.append(placement)
 
     """
@@ -252,18 +297,25 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
     POPULATION algorithm
     """
+
     # In ifogsim, during the creation of the application, the Sensors are assigned to the topology, in this case no. As mentioned, YAFS differentiates the adaptive sensors and their topological assignment.
     # In their case, the use a statical assignment.
+
     populations = list()
-    for user in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
+    for user in range(NUM_OF_USERS):
         population = Statical("Statical_" + str(user))
-        population.set_sink_control({"model": "actuator_device", "number": 1, "module": apps[user].get_sink_modules(), "user": user})
-        dDistribution = deterministicDistributionStartPoint(name="Deterministic_"+str(user)+"_1", time=10000, start=10)
-        population.set_src_control({"model": "camera", "number": 1, "message": apps[user].get_message("Image_Acquirement"),
-         "distribution": dDistribution, "user": user})
-        dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic_"+str(user)+"_2", time=10000, start=10)
-        population.set_src_control({"model": "imu", "number": 1, "message": apps[user].get_message("Inertial_Data_Acquirement"),
-         "distribution": dDistribution_2, "user": user})
+        population.set_sink_control(
+            {"model": "actuator_device", "number": 1, "module": apps[user].get_sink_modules(), "user": user})
+        dDistribution = deterministicDistributionStartPoint(name="Deterministic_" + str(user) + "_1", time=10000,
+                                                            start=10)
+        population.set_src_control(
+            {"model": "camera", "number": 1, "message": apps[user].get_message("Image_Acquirement"),
+             "distribution": dDistribution, "user": user})
+        dDistribution_2 = deterministicDistributionStartPoint(name="Deterministic_" + str(user) + "_2", time=10000,
+                                                              start=10)
+        population.set_src_control(
+            {"model": "imu", "number": 1, "message": apps[user].get_message("Inertial_Data_Acquirement"),
+             "distribution": dDistribution_2, "user": user})
         populations.append(population)
 
     # For each type of sink modules we set a deployment on some type of devices
@@ -283,9 +335,9 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
 
     stop_time = simulated_time
-    s = Sim(t, default_results_path=folder_results + "base_station_arbitrary_number")
+    s = Sim(t, default_results_path=folder_results + "base_station_arbitrary_number_MULTIPLE_BS_RAM_TEST")
 
-    for user in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
+    for user in range(NUM_OF_USERS):
         s.deploy_app2(apps[user], placements[user], populations[user], selectorPath)
 
     s.run(stop_time, show_progress_monitor=False)  # To test deployments put test_initial_deploy a TRUE

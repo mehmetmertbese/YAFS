@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 
+
 class Message:
     """
     A message is set by the following values:
@@ -26,7 +27,7 @@ class Message:
         app_name (str): the name of the application
     """
 
-    def __init__(self, name, src, dst, instructions=0, bytes=0,broadcasting=False):
+    def __init__(self, name, src, dst, instructions=0, bytes=0, broadcasting=False):
         self.name = name
         self.src = src
         self.dst = dst
@@ -44,14 +45,15 @@ class Message:
         self.last_idDes = []
         self.id = -1
 
-        self.original_DES_src = None #This attribute identifies the user when multiple users are in the same node
+        self.original_DES_src = None  # This attribute identifies the user when multiple users are in the same node
 
     def __str__(self):
-        print  ("{--")
-        print (" Name: %s (%s)" %(self.name,self.id))
-        print (" From (src): %s  to (dst): %s" %(self.src,self.dst))
-        print (" --}")
+        print("{--")
+        print(" Name: %s (%s)" % (self.name, self.id))
+        print(" From (src): %s  to (dst): %s" % (self.src, self.dst))
+        print(" --}")
         return ("")
+
 
 def fractional_selectivity(threshold):
     return random.random() <= threshold
@@ -107,6 +109,8 @@ class Application:
     TYPE_SINK = "SINK"
     "A sink is like actuator"
 
+    app_list = {}
+
     def __init__(self, name):
         self.name = name
         self.services = {}
@@ -115,44 +119,55 @@ class Application:
         self.modules_src = []
         self.modules_sink = []
         self.data = {}
+        self.number = -1
+        self.module_ram_requirements = {}
+        Application.app_list[name] = self
 
     def __str__(self):
-        print ("___ APP. Name: %s" % self.name)
-        print (" __ Transmissions ")
+        print("___ APP. Name: %s" % self.name)
+        print(" __ Transmissions ")
         for m in self.messages.values():
-            print ("\tModule: None : M_In: %s  -> M_Out: %s " %(m.src,m.dst))
+            print("\tModule: None : M_In: %s  -> M_Out: %s " % (m.src, m.dst))
 
         for modulename in self.services.keys():
             m = self.services[modulename]
-            print ("\t",modulename)
+            print("\t", modulename)
             for ser in m:
                 if "message_in" in ser.keys():
                     try:
-                            print ("\t\t M_In: %s  -> M_Out: %s " % (ser["message_in"].name, ser["message_out"].name))
+                        print("\t\t M_In: %s  -> M_Out: %s " % (ser["message_in"].name, ser["message_out"].name))
                     except:
-                            print ("\t\t M_In: %s  -> M_Out: [NOTHING] " % (ser["message_in"].name))
+                        print("\t\t M_In: %s  -> M_Out: [NOTHING] " % (ser["message_in"].name))
         return ""
 
-    def set_modules(self,data):
+    def set_modules(self, data):
         """
         Pure source or sink modules must be typified
 
         Args:
             data (dict) : a set of characteristic of modules
         """
+
         for module in data:
+
+            #print("MODULE KEYS")
+            #print(list(module.keys()))
+
             name = list(module.keys())[0]
             type = list(module.values())[0]["Type"]
             if type == self.TYPE_SOURCE:
                 self.modules_src.append(name)
             elif type == self.TYPE_SINK:
                 self.modules_sink = name
+            elif type == self.TYPE_MODULE:
+                self.module_ram_requirements[name] = list(module.values())[0]["RAM"]
 
             self.modules.append(name)
 
         self.data = data
 
         # self.modules_sink = modules
+
     # def set_module(self, modules, type_module):
     #     """
     #     Pure source or sink modules must be typified
@@ -188,8 +203,7 @@ class Application:
         """
         self.messages[msg.name] = msg
 
-
-    def get_message(self,name):
+    def get_message(self, name):
         """
         Returns: a message instance from the identifier name
         """
@@ -254,3 +268,23 @@ class Application:
         self.services[module_name].append({"type": Application.TYPE_MODULE, "dist": distribution, "param": param,
                                            "message_in": message_in, "message_out": message_out,
                                            "module_dest": module_dest, "p": p})
+
+        # --------------------------------- ADDED BY MERT -------------------------------------- #
+
+    def set_number(self, number):
+        self.number = number
+
+    def get_number(self):
+        return self.number
+
+    def get_ram_requirements(self):
+        return self.module_ram_requirements
+
+def get_app(name):
+    return Application.app_list.get(str(name))
+
+class Module:
+    def __init__(self, name, required_ram, module_type):
+        self.name = name
+        self.required_ram = required_ram
+        self.module_type = module_type
