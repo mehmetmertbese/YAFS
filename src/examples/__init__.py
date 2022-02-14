@@ -11,10 +11,11 @@ from pkgutil import extend_path
 from yafs.core import Sim
 from yafs.placement import Placement,ClusterPlacement
 from yafs.selection import Selection,OneRandomPath,First_ShortestPath
-from yafs.topology import Topology,Entity
+from yafs.topology import Topology, Link
 from yafs.population import Population,Statical
 from yafs.application import Application, Message
 from yafs.metrics import Metrics
+from yafs.entities_mert import *
 #import yafs.utils
 
 def compile_toc(entries, section_marker='='):
@@ -33,7 +34,7 @@ def compile_toc(entries, section_marker='='):
 
 toc = (
     ('Core', [Sim]),
-    ('Topology', [Topology, Entity]),
+    ('Topology', [Topology, Link]),
     ('Application', [Application, Message]),
     ('Population', [Population, Statical]),
     ('Placement', [Placement,ClusterPlacement]),

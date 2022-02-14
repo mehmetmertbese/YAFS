@@ -3,13 +3,14 @@ import networkx as nx
 import argparse
 from pathlib import Path
 import time
+import datetime
 import numpy as np
 
 from yafs.core import Sim
 from yafs.application import Application, Message
 
 from yafs.population import *
-from yafs.topology import Topology
+from yafs.topology import Topology, Link
 
 from examples.Tutorial.simpleSelection import MinimunPath, MinPath_RoundRobin, MertsPath
 from examples.Tutorial.simplePlacement import FullEdgePlacement, Mert_FullEdgePlacement, \
@@ -18,7 +19,7 @@ from examples.Tutorial.simplePlacement import FullEdgePlacement, Mert_FullEdgePl
 from yafs.stats import Stats
 from yafs.distribution import deterministic_distribution, deterministicDistributionStartPoint
 from yafs.application import fractional_selectivity
-from yafs.entities_mert import Entity
+from yafs.entities_mert import Entity, Base_Station
 from examples.Tutorial.csv_reader import tim_out_read
 import pandas as pd
 import threading
@@ -60,8 +61,8 @@ ID_COUNTER_USER = 0
 global links
 links = list()
 
-global entitities
-entitities = list()
+global entities
+entities = list()
 
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
@@ -71,21 +72,21 @@ CSV_FILE = folder_results + 'base_station_arbitrary_number_of_devices.csv'
 
 # from yafs.placement import Placement
 
-def id_counter_entity():
+def entity_id_counter():
     global ID_COUNTER_ENTITY
     prev_id_count = ID_COUNTER_ENTITY
     ID_COUNTER_ENTITY += 1
     return prev_id_count
 
 
-def id_counter_bs():
+def bs_id_counter():
     global ID_COUNTER_BS
     prev_bs_count = ID_COUNTER_BS
     ID_COUNTER_BS += 1
     return prev_bs_count
 
 
-def id_counter_user():
+def user_id_counter():
     global ID_COUNTER_USER
     prev_user_count = ID_COUNTER_USER
     ID_COUNTER_USER += 1
@@ -97,28 +98,28 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     def add_drone(uplink_rate, user_id, attached_bs_id):
 
         id_camera = ID_COUNTER_ENTITY
-        camera_user = Entity(id=id_counter_entity(), model="camera", ipt=100 * (10 ** 6), ram=400000,
+        camera_user = Entity(id=entity_id_counter(), model="camera", ipt=100 * (10 ** 6), ram=4000000,
                              cost=3, power_consumption=40.0, user=user_id)
-        # camera_user = {"id": id_counter_entity(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
+        # camera_user = {"id": entity_id_counter(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
         #                "WATT": 40.0, "user": user_id}
 
         id_imu = ID_COUNTER_ENTITY
-        imu_user = Entity(id=id_counter_entity(), model="imu", ipt=100 * (10 ** 9), ram=400000,
+        imu_user = Entity(id=entity_id_counter(), model="imu", ipt=100 * (10 ** 9), ram=4000000,
                           cost=3, power_consumption=40.0, user=user_id)
-        # imu_user = {"id": id_counter_entity(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3,
+        # imu_user = {"id": entity_id_counter(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3,
         #             "WATT": 40.0, "user": user_id}
 
         id_actuator = ID_COUNTER_ENTITY
-        actuator_user = Entity(id=id_counter_entity(), model="actuator_device", ipt=1 * (10 ** 6), ram=400000,
+        actuator_user = Entity(id=entity_id_counter(), model="actuator_device", ipt=1 * (10 ** 6), ram=4000000,
                                cost=3, power_consumption=40.0, user=user_id)
-        # actuator_user = {"id": id_counter_entity(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000,
+        # actuator_user = {"id": entity_id_counter(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000,
         #                  "COST": 3,
         #                  "WATT": 40.0, "user": user_id}
 
         id_drone = ID_COUNTER_ENTITY
-        drone_user = Entity(id=id_counter_entity(), model="drone_user", ipt=DRONE_CPU, ram=400000,
-                            cost=3, power_consumption=40.0, user=user_id, mytag = "drone")
-        # drone_user = {"id": id_counter_entity(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000,
+        drone_user = Entity(id=entity_id_counter(), model="drone_user", ipt=DRONE_CPU, ram=4000000,
+                            cost=3, power_consumption=40.0, user=user_id, mytag="drone")
+        # drone_user = {"id": entity_id_counter(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000,
         #               "COST": 3,
         #               "WATT": 40.0, "user": user_id}
 
@@ -128,25 +129,24 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         links.append({"s": id_drone, "d": attached_bs_id, "BW": uplink_rate, "PR": 0})
         links.append({"s": attached_bs_id, "d": id_drone, "BW": uplink_rate, "PR": 0})
 
-        entitities.append(camera_user)
-        entitities.append(imu_user)
-        entitities.append(actuator_user)
-        entitities.append(drone_user)
+        entities.append(camera_user)
+        entities.append(imu_user)
+        entities.append(actuator_user)
+        entities.append(drone_user)
 
     def add_bs_and_drones(attached_edge_server_ids):
 
         id_bs = ID_COUNTER_BS
-        base_station = Entity(id=id_counter_entity(), model="base_station", ipt=2000 * (10 ** 9), ram=400000,
-                              cost=3, power_consumption=40.0, user=id_bs, mytag="base_station")
-        # base_station = {"id": id_counter_bs(), "model": "base_station", "mytag": "base_station",
+        base_station = Base_Station(entity_id_counter())
+        # base_station = {"id": bs_id_counter(), "model": "base_station", "mytag": "base_station",
         #                 "IPT": 2000 * (10 ** 9),
         #                 "RAM": 4000000,
         #                 "COST": 3, "WATT": 40.0}
 
-        entitities.append(base_station)
+        entities.append(base_station)
 
         for i in range(USERS_PER_BS):
-            add_drone(uplink_rate, id_counter_user(), id_bs)
+            add_drone(uplink_rate, user_id_counter(), id_bs)
 
         for i in range(len(attached_edge_server_ids)):
             links.append({"s": id_bs, "d": attached_edge_server_ids[i], "BW": 1000, "PR": 0})
@@ -218,7 +218,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         topology_json["link"] = []
 
         edge_device = Entity(id=ID_EDGE_SERVER, model="edge_server", ipt=DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO,
-                             ram=10000000,
+                             ram=100000000,
                              cost=3, power_consumption=20.0, mytag="edge")
 
         # edge_device = {"id": ID_EDGE_SERVER, "model": "edge_server", "mytag": "edge",
@@ -226,7 +226,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         #                "WATT": 20.0}
 
         edge_server_ids = [ID_EDGE_SERVER]
-        entitities.append(edge_device)
+        entities.append(edge_device)
 
         for i in range(NUM_OF_BS):
             add_bs_and_drones(edge_server_ids)
@@ -236,8 +236,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         # links.append(link_bs_edge)
         # links.append(link_edge_bs)
 
-        for i in range(len(entitities)):
-            topology_json["entity"].append(entitities[i])
+        for i in range(len(entities)):
+            topology_json["entity"].append(entities[i])
 
         for j in range(len(links)):
             topology_json["link"].append(links[j])
@@ -334,7 +334,9 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
     """
 
     stop_time = simulated_time
-    s = Sim(t, default_results_path=folder_results + "base_station_arbitrary_number_MULTIPLE_BS_RAM_TEST")
+    file_name = "base_station_arbitrary_number_MULTIPLE_BS_RAM_TEST"
+    s = Sim(t, default_results_path=folder_results + "_" + file_name + "_" + datetime.datetime.today().strftime(
+        "%Y_%m_%d-%H_%M"))
 
     for user in range(NUM_OF_USERS):
         s.deploy_app2(apps[user], placements[user], populations[user], selectorPath)

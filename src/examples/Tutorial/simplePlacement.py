@@ -218,7 +218,6 @@ class Mert_FullEdgePlacement_Arbitrary_Number(Placement):
         for module in services:
             if module in self.scaleServices:
                 for rep in range(0, self.scaleServices[module]):
-
                     app_number = app.get_number()
 
                     if ((module == 'Image_Acquisition') or (module == 'IMU_Measurement_Acquisition') or (

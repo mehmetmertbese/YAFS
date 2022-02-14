@@ -60,8 +60,8 @@ ID_COUNTER_USER = 0
 global links
 links = list()
 
-global entitities
-entitities = list()
+global entities
+entities = list()
 
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
@@ -100,26 +100,26 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         id_camera = ID_COUNTER_ENTITY
         camera_user = Entity(id=id_counter_entity(), model="camera", ipt=100 * (10 ** 6), ram=400000,
                              cost=3, power_consumption=40.0, user=user_id)
-        # camera_user = {"id": id_counter_entity(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
+        # camera_user = {"id": entity_id_counter(), "model": "camera", "IPT": 100 * (10 ** 6), "RAM": 400000, "COST": 3,
         #                "WATT": 40.0, "user": user_id}
 
         id_imu = ID_COUNTER_ENTITY
         imu_user = Entity(id=id_counter_entity(), model="imu", ipt=100 * (10 ** 9), ram=400000,
                           cost=3, power_consumption=40.0, user=user_id)
-        # imu_user = {"id": id_counter_entity(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3,
+        # imu_user = {"id": entity_id_counter(), "model": "imu", "IPT": 100 * (10 ** 9), "RAM": 400000, "COST": 3,
         #             "WATT": 40.0, "user": user_id}
 
         id_actuator = ID_COUNTER_ENTITY
         actuator_user = Entity(id=id_counter_entity(), model="actuator_device", ipt=1 * (10 ** 6), ram=400000,
                                cost=3, power_consumption=40.0, user=user_id)
-        # actuator_user = {"id": id_counter_entity(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000,
+        # actuator_user = {"id": entity_id_counter(), "model": "actuator_device", "IPT": 1 * (10 ** 6), "RAM": 400000,
         #                  "COST": 3,
         #                  "WATT": 40.0, "user": user_id}
 
         id_drone = ID_COUNTER_ENTITY
         drone_user = Entity(id=id_counter_entity(), model="drone_user", ipt=DRONE_CPU, ram=400000,
                             cost=3, power_consumption=40.0, user=user_id, mytag = "drone")
-        # drone_user = {"id": id_counter_entity(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000,
+        # drone_user = {"id": entity_id_counter(), "model": "drone", "mytag": "drone", "IPT": DRONE_CPU, "RAM": 40000,
         #               "COST": 3,
         #               "WATT": 40.0, "user": user_id}
 
@@ -129,22 +129,22 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         links.append({"s": id_drone, "d": attached_bs_id, "BW": uplink_rate, "PR": 0})
         links.append({"s": attached_bs_id, "d": id_drone, "BW": uplink_rate, "PR": 0})
 
-        entitities.append(camera_user)
-        entitities.append(imu_user)
-        entitities.append(actuator_user)
-        entitities.append(drone_user)
+        entities.append(camera_user)
+        entities.append(imu_user)
+        entities.append(actuator_user)
+        entities.append(drone_user)
 
     def add_bs_and_drones(attached_edge_server_ids):
 
         id_bs = ID_COUNTER_BS
         base_station = Entity(id=id_counter_entity(), model="base_station", ipt=2000 * (10 ** 9), ram=400000,
                               cost=3, power_consumption=40.0, user=id_bs, mytag="base_station")
-        # base_station = {"id": id_counter_bs(), "model": "base_station", "mytag": "base_station",
+        # base_station = {"id": bs_id_counter(), "model": "base_station", "mytag": "base_station",
         #                 "IPT": 2000 * (10 ** 9),
         #                 "RAM": 4000000,
         #                 "COST": 3, "WATT": 40.0}
 
-        entitities.append(base_station)
+        entities.append(base_station)
 
         for i in range(USERS_PER_BS):
             add_drone(uplink_rate, id_counter_user(), id_bs)
@@ -227,7 +227,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         #                "WATT": 20.0}
 
         edge_server_ids = [ID_EDGE_SERVER]
-        entitities.append(edge_device)
+        entities.append(edge_device)
 
         for i in range(NUM_OF_BS):
             add_bs_and_drones(edge_server_ids)
@@ -237,8 +237,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         # links.append(link_bs_edge)
         # links.append(link_edge_bs)
 
-        for i in range(len(entitities)):
-            topology_json["entity"].append(entitities[i])
+        for i in range(len(entities)):
+            topology_json["entity"].append(entities[i])
 
         for j in range(len(links)):
             topology_json["link"].append(links[j])

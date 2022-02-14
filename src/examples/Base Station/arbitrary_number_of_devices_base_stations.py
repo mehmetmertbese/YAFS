@@ -66,8 +66,8 @@ ID_COUNTER_USER = 0
 global links
 links = list()
 
-global entitities
-entitities = list()
+global entities
+entities = list()
 
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
@@ -124,10 +124,10 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         links.append({"s": id_drone, "d": attached_bs_id, "BW": uplink_rate, "PR": 0})
         links.append({"s": attached_bs_id, "d": id_drone, "BW": uplink_rate, "PR": 0})
 
-        entitities.append(camera_user)
-        entitities.append(imu_user)
-        entitities.append(actuator_user)
-        entitities.append(drone_user)
+        entities.append(camera_user)
+        entities.append(imu_user)
+        entities.append(actuator_user)
+        entities.append(drone_user)
 
     def add_bs_and_drones(attached_edge_server_ids):
 
@@ -136,7 +136,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
                         "RAM": 400000,
                         "COST": 3, "WATT": 40.0}
 
-        entitities.append(base_station)
+        entities.append(base_station)
 
         for i in range(USERS_PER_BS):
             add_drone(uplink_rate, id_counter_user(), id_bs)
@@ -217,7 +217,7 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
                        "WATT": 20.0}
 
         edge_server_ids = [ID_EDGE_SERVER]
-        entitities.append(edge_device)
+        entities.append(edge_device)
 
         for i in range(NUM_OF_BS):
             add_bs_and_drones(edge_server_ids)
@@ -227,8 +227,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         #links.append(link_bs_edge)
         #links.append(link_edge_bs)
 
-        for i in range(len(entitities)):
-            topology_json["entity"].append(entitities[i])
+        for i in range(len(entities)):
+            topology_json["entity"].append(entities[i])
 
         for j in range(len(links)):
             topology_json["link"].append(links[j])

@@ -243,7 +243,7 @@ class Application:
                            **param):
 
         """
-        Link to each non-pure module a management of transfering of messages
+        Link to each non-pure module a management of transferring of messages
 
         Args:
             module_name (str): module name

@@ -61,8 +61,8 @@ ID_COUNTER_ENTITY = 0
 global links
 links = list()
 
-global entitities
-entitities = list()
+global entities
+entities = list()
 
 folder_results = Path("results/")
 folder_results.mkdir(parents=True, exist_ok=True)
@@ -104,10 +104,10 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         links.append({"s": ID_DRONE, "d": ID_BASE_STATION, "BW": uplink_rate, "PR": 0})
         links.append({"s": ID_BASE_STATION, "d": ID_DRONE, "BW": uplink_rate, "PR": 0})
 
-        entitities.append(camera_user)
-        entitities.append(imu_user)
-        entitities.append(actuator_user)
-        entitities.append(drone_user)
+        entities.append(camera_user)
+        entities.append(imu_user)
+        entities.append(actuator_user)
+        entities.append(drone_user)
 
     def create_application(name):
         # APLICATION
@@ -182,8 +182,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
                        "IPT": DRONE_CPU * EDGE_DRONE_CMPT_PWR_RATIO, "RAM": 100000, "COST": 3,
                        "WATT": 20.0}
 
-        entitities.append(base_station)
-        entitities.append(edge_device)
+        entities.append(base_station)
+        entities.append(edge_device)
 
         for i in range(NUM_OF_MOBILES_CONNECTED_PER_BS):
             add_drone(uplink_rate, i)
@@ -193,8 +193,8 @@ def up_rate_evaluation_fnc(simulated_time, uplink_rate):
         links.append(link_bs_edge)
         links.append(link_edge_bs)
 
-        for i in range(len(entitities)):
-            topology_json["entity"].append(entitities[i])
+        for i in range(len(entities)):
+            topology_json["entity"].append(entities[i])
 
         for j in range(len(links)):
             topology_json["link"].append(links[j])

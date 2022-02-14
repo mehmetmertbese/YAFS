@@ -28,7 +28,8 @@ from yafs.application import Application, get_app
 from yafs.metrics import Metrics
 from yafs.distribution import *
 from yafs.application import Message
-import yafs.entities_mert as entity
+from yafs.entities_mert import get_entity_from_id, ENTITY_LIST, get_entity_list
+
 
 EVENT_UP_ENTITY = "node_up"
 EVENT_DOWN_ENTITY = "node_down"
@@ -94,7 +95,7 @@ class Sim:
 
         self.metrics = Metrics(default_results_path=default_results_path)
 
-        self.unreachabled_links = 0
+        self.unreachable_links = 0
 
         "Contains the database where all events are recorded"
 
@@ -188,7 +189,7 @@ class Sim:
         Kwargs:
             id_src (int) identifier of a pure source module
         """
-        # TODO IMPROVE asignation of topo = alloc_DES(IdDES) , It has to move to the get_path process
+        # TODO IMPROVE assignation of topo = alloc_DES(IdDES) , It has to move to the get_path process
         try:
             paths, DES_dst = self.selector_path[app_name].get_path(self, app_name, message, self.alloc_DES[idDES],
                                                                    self.alloc_DES, self.alloc_module,
@@ -236,7 +237,6 @@ class Sim:
 
         while not self.stop:
             message = yield self.network_ctrl_pipe.get()
-
             # print "NetworkProcess --- Current time %d " %self.env.now
             # print "name " + message.name
             # print "Path:",message.path
@@ -262,11 +262,7 @@ class Sim:
                         (isinstance(message.dst_int, int) and message.dst_int < 0):
                     src_int = message.path[0]
                     message.dst_int = message.path[1]
-                    #print(message)
-                    #print(src_int)
-                    #print(message.dst_int)
                 else:
-                    #print("im here4")
                     src_int = message.dst_int
                     message.dst_int = message.path[message.path.index(message.dst_int) + 1]
                 # arista set by (src_int,message.dst_int)
@@ -331,7 +327,6 @@ class Sim:
                     if DES_dst == [] and paths == []:
                         # Message communication ending:
                         # The message have arrived to the destination node but it is unavailable.
-                        None
                         self.logger.debug("\t No path given. Message is lost")
                     else:
 
@@ -433,7 +428,7 @@ class Sim:
             """
             if module in self.apps[app].get_sink_modules():
                 """
-                The module is a SINK (Actuactor)
+                The module is a SINK (Actuator)
                 """
                 id_node = self.alloc_DES[des]
                 time_service = 0
@@ -442,11 +437,17 @@ class Sim:
                 The module is a processing module
                 """
                 id_node = self.alloc_DES[des]
+                node_entity = get_entity_from_id(id_node)
 
                 # att_node = self.topology.get_nodes_att()[id_node] # WARNING DEPRECATED from V1.0
-                att_node = self.topology.G.nodes[id_node]
+                #att_node = self.topology.G.nodes[id_node]
+                ipt_node = node_entity.ipt
+                time_service = message.inst / (float(ipt_node) / node_entity.active_tasks)
 
-                time_service = message.inst / float(att_node["IPT"])
+                print("ACTIVE TASKS")
+                print(node_entity.active_tasks)
+                print("AVAILABLE RAM")
+                print(node_entity.get_available_ram())
 
             """
             it records the entity id who sends this message
@@ -562,9 +563,6 @@ class Sim:
                     while self.message_counters[str(ides)] < number_of_messages_expected:
                         msg = yield self.consumer_pipes["%s%s%i" % (app_name, module, ides)].get()
                         if msg.name in expected_messages and msg not in msgs:
-                            # if not doBefore:
-                            #print("EXPECTED MESSAGES")
-                            #print(expected_messages)
                             self.logger.debug(
                                 "(App:%s#DES:%i#%s)\tModule - Recording the message:\t%s" % (
                                     app_name, ides, module, msg.name))
@@ -815,24 +813,23 @@ class Sim:
         self.__add_consumer_service_pipe(app_name, module, idDES)
         self.alloc_DES[idDES] = id_node
 
-        get_app(app_name)
-
-        #print("ALLOC DES")
-        #print(self.alloc_DES)
-
-        #print("ENTITY LIST")
-        #print(entity.show_entity_list())
-
-        #get_entity_from_id(id_node).allocate_ram(100)
-
         if module not in self.alloc_module[app_name]:
             self.alloc_module[app_name][module] = []
         self.alloc_module[app_name][module].append(idDES)
 
         app_ram_requirements = get_app(app_name).get_ram_requirements()
 
+        print("ENTITY LIST")
+        print(get_entity_list())
+        print("ID NODE")
+        print(id_node)
+
+        deployed_entity = get_entity_from_id(id_node)
+
         if module in app_ram_requirements:
-            entity.get_entity_from_id(id_node).allocate_ram(app_ram_requirements[module])
+            deployed_entity.allocate_ram(app_ram_requirements[module])
+
+        deployed_entity.add_task()
 
         return idDES
 
@@ -1118,8 +1115,6 @@ class Sim:
         """
         Creating app.sources and deploy the sources in the topology
         """
-        print("POPULATION ITEMS")
-        print(self.population_policy.items())
         for pop in self.population_policy.items():
             for app_name in pop[1]["apps"]:
                 print("APP NAME")

@@ -4,6 +4,9 @@ import logging
 import networkx as nx
 import warnings
 
+LINK_COUNTER = 0
+LINK_LIST = {}
+
 
 class Topology:
     """
@@ -121,10 +124,14 @@ class Topology:
         self.G = nx.DiGraph()
         # self.G = nx.MultiDiGraph()
         # nx.DiGraph
-        for edge in data["link"]:
-            self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
+        for edge in data["link"].values():
+            print("DATA_LINK")
+            print(data["link"])
+            print("EDGE")
+            print(edge)
+            self.G.add_edge(edge.source_id, edge.destination_id, BW=edge.bandwidth, PR=edge.latency)
 
-        for node in data["entity"]:
+        for node in data["entity"].values():
             self.nodeAttributes[node.id] = node
         # end remove
 
@@ -132,7 +139,7 @@ class Topology:
 
         valuesIPT = {}
         # valuesRAM = {}
-        for node in data["entity"]:
+        for node in data["entity"].values():
             try:
                 valuesIPT[node.id] = node.ipt
             except KeyError:
@@ -149,21 +156,20 @@ class Topology:
 
     def load_all_node_attr(self, data):
         # self.G = nx.Graph()
-        self.G = nx.DiGraph()
         # self.G = nx.MultiDiGraph()
-
+        self.G = nx.DiGraph()
         for edge in data["link"]:
-            self.G.add_edge(edge["s"], edge["d"], BW=edge[self.LINK_BW], PR=edge[self.LINK_PR])
+            self.G.add_edge(edge.source, edge.destination, BW=edge.bw, PR=edge.latency)
 
         dc = {str(x): {} for x in data["entity"][0].keys()}
         for ent in data["entity"]:
             for key in ent.keys():
-                dc[key][ent["id"]] = ent[key]
+                dc[key][ent.id] = ent[key]
         for x in data["entity"][0].keys():
             nx.set_node_attributes(self.G, values=dc[x], name=str(x))
 
         for node in data["entity"]:
-            self.nodeAttributes[node["id"]] = node
+            self.nodeAttributes[node.id] = node
 
         print("ATTRIBUTES")
         print(self.G)
@@ -251,5 +257,40 @@ class Topology:
         return self.size()
 
 
-class Entity:
-    pass
+class Link:
+    LINK_BW = "BW"
+    "Link feature: Bandwidth"
+
+    LINK_PR = "PR"
+    "Link feature:  Propagation delay"
+    global LINK_COUNTER
+
+    def __init__(self, source_id=None, destination_id=None, bandwidth=None, latency=None, id = None):
+        global LINK_COUNTER
+        self.bandwidth = bandwidth
+        self.source_id = source_id
+        self.destination_id = destination_id
+        self.latency = latency
+        self.id = id
+        LINK_LIST[LINK_COUNTER] = self
+        LINK_COUNTER += 1
+
+    def get_bandwidth(self):
+        return self.bandwidth
+
+    def update_bandwidth(self, bw):
+        self.bandwidth = bw
+
+    def get_latency(self):
+        return self.latency
+
+    def update_latency(self, latency):
+        self.latency = latency
+
+
+def add_link(source_id=None, destination_id=None, bandwidth=None, latency=None, id = None):
+    return Link(source_id, destination_id, bandwidth, latency, id)
+
+
+def get_link_w_id(self, link_id):
+    return LINK_LIST[link_id]

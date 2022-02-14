@@ -55,7 +55,6 @@ class Placement(object):
         .. attention:: override required
         """
 
-
     def run(self,sim):
         """
         This method will be invoked during the simulation to change the assignment of the modules to the topology
